@@ -10,23 +10,22 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{
-  --bg:#0a0a0c;--bg2:#111114;--bg3:#18181d;--bg4:#202026;--bg5:#28282f;
-  --border:#252530;--border2:#32323e;--border3:#3e3e4e;
-  --text:#eeeef5;--text2:#8888a0;--text3:#4a4a60;
-  --blue:#4f9eff;--blue-dim:#1a3a5c;--blue-bg:#0a1e38;
-  --green:#3dd68c;--green-dim:#14532d;--green-bg:#071e12;
-  --red:#f06b6b;--red-dim:#7f1d1d;--red-bg:#1e0808;
-  --amber:#f5a623;--amber-dim:#78350f;--amber-bg:#1e1205;
-  --purple:#a855f7;--purple-dim:#581c87;--purple-bg:#150a24;
+  --bg:#080809;--bg2:#0f0f12;--bg3:#161619;--bg4:#1e1e22;--bg5:#252529;
+  --border:#1e1e24;--border2:#2a2a32;--border3:#363640;
+  --text:#f0f0f8;--text2:#7878a0;--text3:#404058;
+  --blue:#4f9eff;--blue-dim:#1a3a5c;--blue-bg:#081830;
+  --green:#3dd68c;--green-dim:#0f3d22;--green-bg:#051410;
+  --red:#f06b6b;--red-dim:#5c1a1a;--red-bg:#180808;
+  --amber:#f5a623;--amber-dim:#6b3a0a;--amber-bg:#180e04;
+  --purple:#a855f7;--purple-dim:#4a1a7a;--purple-bg:#100820;
   --font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
-  --radius:12px;--radius-sm:8px;--radius-lg:18px;
-  --safe-top:env(safe-area-inset-top,0px);
-  --safe-bottom:env(safe-area-inset-bottom,0px);
+  --r:12px;--rs:8px;--rl:20px;--rxl:28px;
+  --st:env(safe-area-inset-top,0px);
+  --sb:env(safe-area-inset-bottom,0px);
 }
 html,body{height:100%;overflow:hidden;background:var(--bg);}
 body{font-family:var(--font);color:var(--text);font-size:14px;-webkit-font-smoothing:antialiased;}
-::-webkit-scrollbar{width:3px;}
-::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar{width:2px;}
 ::-webkit-scrollbar-thumb{background:var(--border3);border-radius:2px;}
 
 /* ── MAIN MENU ── */
@@ -37,127 +36,145 @@ body{font-family:var(--font);color:var(--text);font-size:14px;-webkit-font-smoot
 }
 #menu-bg{position:absolute;inset:0;overflow:hidden;}
 .menu-orb{
-  position:absolute;border-radius:50%;filter:blur(80px);
-  animation:orbFloat linear infinite;opacity:0.18;
+  position:absolute;border-radius:50%;filter:blur(100px);
+  animation:orbDrift linear infinite;
 }
-@keyframes orbFloat{
+@keyframes orbDrift{
   0%{transform:translate(0,0) scale(1);}
-  33%{transform:translate(40px,-30px) scale(1.1);}
-  66%{transform:translate(-20px,40px) scale(0.95);}
+  20%{transform:translate(50px,-40px) scale(1.08);}
+  45%{transform:translate(-30px,60px) scale(0.94);}
+  70%{transform:translate(40px,20px) scale(1.05);}
   100%{transform:translate(0,0) scale(1);}
 }
-#menu-content{position:relative;z-index:1;text-align:center;padding:32px 24px;width:100%;max-width:340px;}
-#menu-logo{font-size:32px;font-weight:600;letter-spacing:-1px;margin-bottom:6px;}
+#menu-content{position:relative;z-index:1;text-align:center;padding:40px 28px;width:100%;max-width:320px;}
+#menu-logo{font-size:34px;font-weight:600;letter-spacing:-1.5px;margin-bottom:8px;}
 #menu-logo span{color:var(--blue);}
-#menu-tagline{font-size:13px;color:var(--text3);font-family:var(--mono);letter-spacing:0.5px;margin-bottom:48px;}
+#menu-tagline{font-size:12px;color:var(--text3);font-family:var(--mono);letter-spacing:1px;margin-bottom:52px;text-transform:uppercase;}
 .menu-btn{
-  width:100%;padding:15px 24px;border-radius:var(--radius);
+  width:100%;padding:16px 24px;border-radius:var(--rl);
   font-size:15px;font-weight:500;cursor:pointer;
   font-family:var(--font);transition:all 0.2s;
   margin-bottom:10px;border:1px solid var(--border2);
   background:var(--bg2);color:var(--text);
   display:flex;align-items:center;justify-content:center;gap:10px;
+  letter-spacing:0.2px;
 }
 .menu-btn.primary{background:var(--blue);color:#000;border-color:var(--blue);font-weight:600;}
-.menu-btn.disabled{opacity:0.35;cursor:default;pointer-events:none;}
-.menu-btn:active{opacity:0.75;transform:scale(0.98);}
-#menu-version{font-size:10px;color:var(--text3);font-family:var(--mono);margin-top:24px;letter-spacing:0.5px;}
+.menu-btn.disabled{opacity:0.3;cursor:default;pointer-events:none;}
+.menu-btn:active{opacity:0.7;transform:scale(0.97);}
+#menu-version{font-size:10px;color:var(--text3);font-family:var(--mono);margin-top:28px;letter-spacing:0.8px;}
 
-/* ── LAYOUT ── */
-#game{display:flex;flex-direction:column;height:100vh;height:100dvh;display:none;}
+/* ── GAME LAYOUT ── */
+#game{display:none;flex-direction:column;height:100vh;height:100dvh;}
 #main{display:flex;flex:1;overflow:hidden;}
-#content{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;padding-bottom:calc(14px + var(--safe-bottom));}
-.view{display:flex;flex-direction:column;gap:10px;}
 
 /* ── TOPBAR ── */
 #topbar{
-  background:rgba(10,10,12,0.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border);padding:0 16px;
-  padding-top:var(--safe-top);
-  height:calc(52px + var(--safe-top));
-  display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:10px;
-  flex-shrink:0;position:relative;z-index:100;
+  background:rgba(8,8,9,0.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+  padding:0 14px;padding-top:var(--st);
+  height:calc(50px + var(--st));
+  display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:9px;
+  flex-shrink:0;z-index:100;
 }
-#logo{font-size:15px;font-weight:600;letter-spacing:-0.3px;}
+#logo{font-size:14px;font-weight:600;letter-spacing:-0.3px;}
 #logo span{color:var(--blue);}
-#topbar-center{display:flex;align-items:center;gap:10px;}
-#clock{font-family:var(--mono);font-size:11px;color:var(--text2);background:var(--bg3);padding:4px 10px;border-radius:20px;border:1px solid var(--border);letter-spacing:0.3px;}
-#day-indicator{font-size:10px;color:var(--text3);font-family:var(--mono);}
-#topbar-right{display:flex;gap:12px;align-items:center;}
+#topbar-center{display:flex;align-items:center;gap:8px;}
+#clock{font-family:var(--mono);font-size:10px;color:var(--text2);background:var(--bg3);padding:3px 9px;border-radius:20px;border:1px solid var(--border);letter-spacing:0.3px;}
+#day-indicator{font-size:9px;color:var(--text3);font-family:var(--mono);}
+#topbar-right{display:flex;gap:10px;align-items:center;}
 .tstat{text-align:right;}
-.tstat-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:1px;}
-.tstat-value{font-size:13px;font-weight:500;font-family:var(--mono);}
+.tstat-label{font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:1px;}
+.tstat-value{font-size:12px;font-weight:500;font-family:var(--mono);}
 .tstat-value.up{color:var(--green);}
 .tstat-value.down{color:var(--red);}
-#rent-ticker{font-size:10px;color:var(--amber);background:var(--amber-bg);border:1px solid var(--amber-dim);padding:3px 9px;border-radius:20px;font-family:var(--mono);cursor:pointer;letter-spacing:0.3px;}
+#rent-ticker{font-size:9px;color:var(--amber);background:var(--amber-bg);border:1px solid var(--amber-dim);padding:3px 8px;border-radius:20px;font-family:var(--mono);cursor:pointer;letter-spacing:0.3px;}
 
-/* ── SAVE BUTTON ── */
-#save-btn{
-  position:fixed;bottom:calc(16px + var(--safe-bottom));right:16px;
-  width:40px;height:40px;border-radius:50%;
-  background:var(--bg3);border:1px solid var(--border2);
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;z-index:200;font-size:16px;
-  transition:all 0.2s;box-shadow:0 4px 16px rgba(0,0,0,0.4);
+/* ── BOTTOM NAV (mobile-first) ── */
+#bottom-nav{
+  display:flex;background:rgba(8,8,9,0.97);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-top:1px solid var(--border);
+  padding-bottom:var(--sb);
+  flex-shrink:0;z-index:100;
 }
-#save-btn:active{transform:scale(0.9);}
-#save-toast{
-  position:fixed;bottom:calc(68px + var(--safe-bottom));right:16px;
-  background:var(--bg3);border:1px solid var(--border2);
-  border-radius:var(--radius-sm);padding:6px 12px;
-  font-size:11px;color:var(--text2);font-family:var(--mono);
-  z-index:200;opacity:0;transition:opacity 0.3s;pointer-events:none;
-  white-space:nowrap;
+.bnav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  padding:10px 4px;cursor:pointer;position:relative;
+  transition:all 0.15s;color:var(--text3);
+  font-size:9px;font-family:var(--mono);letter-spacing:0.5px;gap:4px;
+}
+.bnav-item.active{color:var(--blue);}
+.bnav-item.active::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:24px;height:2px;background:var(--blue);border-radius:0 0 2px 2px;
+}
+.bnav-icon{font-size:18px;line-height:1;}
+.bnav-badge{
+  position:absolute;top:6px;right:calc(50% - 16px);
+  background:var(--red);color:#fff;font-size:8px;font-weight:700;
+  padding:1px 4px;border-radius:8px;font-family:var(--mono);min-width:14px;text-align:center;
 }
 
-/* ── SIDEBAR ── */
-#sidebar{width:188px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;padding:10px 6px;}
+/* ── SIDEBAR (tablet+) ── */
+#sidebar{display:none;}
+@media(min-width:640px){
+  #sidebar{
+    width:180px;background:var(--bg2);border-right:1px solid var(--border);
+    display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;padding:10px 6px;
+  }
+  #bottom-nav{display:none;}
+}
 .sidebar-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;padding:8px 10px 4px;font-weight:600;}
-.nav-item{padding:8px 10px;border-radius:var(--radius-sm);cursor:pointer;font-size:12px;color:var(--text2);display:flex;align-items:center;gap:8px;margin-bottom:1px;transition:all 0.15s;border:1px solid transparent;position:relative;}
+.nav-item{padding:8px 10px;border-radius:var(--rs);cursor:pointer;font-size:12px;color:var(--text2);display:flex;align-items:center;gap:8px;margin-bottom:1px;transition:all 0.15s;border:1px solid transparent;position:relative;}
 .nav-item:hover{background:var(--bg3);color:var(--text);}
 .nav-item.active{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-dim);}
 .nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:2px;height:55%;background:var(--blue);border-radius:0 2px 2px 0;}
 .nav-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0;}
 .badge{background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:10px;margin-left:auto;font-family:var(--mono);min-width:16px;text-align:center;}
 .sidebar-divider{height:1px;background:var(--border);margin:6px 4px;}
-.contact-row{padding:7px 10px;display:flex;align-items:center;gap:9px;font-size:12px;color:var(--text2);cursor:pointer;border-radius:var(--radius-sm);transition:background 0.15s;margin-bottom:1px;}
+.contact-row{padding:7px 10px;display:flex;align-items:center;gap:9px;font-size:12px;color:var(--text2);cursor:pointer;border-radius:var(--rs);transition:background 0.15s;margin-bottom:1px;}
 .contact-row:hover{background:var(--bg3);}
 .rep-bar-wrap{width:28px;height:3px;background:var(--bg5);border-radius:2px;overflow:hidden;flex-shrink:0;}
 .rep-bar{height:100%;border-radius:2px;transition:width 0.6s ease;}
 
+/* ── CONTENT ── */
+#content{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;}
+.view{display:flex;flex-direction:column;gap:10px;}
+
 /* ── PANELS ── */
-.panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
-.panel-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.panel-header{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
 .panel-title{font-size:13px;font-weight:500;}
 .panel-sub{font-size:10px;color:var(--text3);font-family:var(--mono);}
-.panel-body{padding:0 16px;}
+.panel-body{padding:0 14px;}
 .status-live{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-family:var(--mono);color:var(--green);}
-.status-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
+.status-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
 
 /* ── STOCKS ── */
-.stock-row{display:flex;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);gap:10px;}
+.stock-row{display:flex;align-items:center;padding:11px 0;border-bottom:1px solid var(--border);gap:8px;}
 .stock-row:last-child{border-bottom:none;}
-.stock-ticker{font-size:12px;font-weight:600;width:46px;flex-shrink:0;font-family:var(--mono);}
+.stock-ticker{font-size:11px;font-weight:600;width:42px;flex-shrink:0;font-family:var(--mono);}
 .stock-info{flex:1;min-width:0;}
-.stock-name{font-size:12px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.stock-desc{font-size:10px;color:var(--text3);margin-top:1px;}
-.stock-chart-wrap{width:70px;flex-shrink:0;}
-.stock-price{font-size:13px;font-weight:500;width:66px;text-align:right;font-family:var(--mono);flex-shrink:0;}
-.stock-change{font-size:10px;width:46px;text-align:right;font-family:var(--mono);flex-shrink:0;}
+.stock-name{font-size:11px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.stock-desc{font-size:9px;color:var(--text3);margin-top:1px;}
+.stock-chart-wrap{width:60px;flex-shrink:0;}
+.stock-price{font-size:12px;font-weight:500;width:60px;text-align:right;font-family:var(--mono);flex-shrink:0;}
+.stock-change{font-size:9px;width:42px;text-align:right;font-family:var(--mono);flex-shrink:0;}
 .stock-actions{display:flex;gap:4px;flex-shrink:0;}
-.btn-buy{background:var(--green-bg);color:var(--green);border:1px solid var(--green-dim);font-size:11px;padding:5px 11px;border-radius:20px;cursor:pointer;font-weight:600;font-family:var(--font);}
-.btn-sell{background:var(--red-bg);color:var(--red);border:1px solid var(--red-dim);font-size:11px;padding:5px 11px;border-radius:20px;cursor:pointer;font-weight:600;font-family:var(--font);}
+.btn-buy{background:var(--green-bg);color:var(--green);border:1px solid var(--green-dim);font-size:10px;padding:5px 10px;border-radius:20px;cursor:pointer;font-weight:600;font-family:var(--font);}
+.btn-sell{background:var(--red-bg);color:var(--red);border:1px solid var(--red-dim);font-size:10px;padding:5px 10px;border-radius:20px;cursor:pointer;font-weight:600;font-family:var(--font);}
 .btn-buy:active{background:var(--green-dim);}
 .btn-sell:active{background:var(--red-dim);}
-.holding-pill{font-size:9px;background:var(--blue-bg);color:var(--blue);border-radius:10px;padding:1px 6px;margin-left:3px;font-family:var(--mono);border:1px solid var(--blue-dim);}
+.holding-pill{font-size:8px;background:var(--blue-bg);color:var(--blue);border-radius:10px;padding:1px 5px;margin-left:2px;font-family:var(--mono);border:1px solid var(--blue-dim);}
 
 /* ── NEWS ── */
-.news-item{padding:12px 0;border-bottom:1px solid var(--border);}
+.news-item{padding:11px 0;border-bottom:1px solid var(--border);}
 .news-item:last-child{border-bottom:none;}
 .news-headline{font-size:13px;color:var(--text);line-height:1.45;margin-bottom:5px;}
 .news-meta{font-size:10px;color:var(--text3);display:flex;gap:8px;align-items:center;font-family:var(--mono);}
-.impact-pill{font-size:9px;padding:2px 8px;border-radius:10px;font-weight:600;}
+.impact-pill{font-size:9px;padding:2px 7px;border-radius:10px;font-weight:600;}
 .impact-up{background:var(--green-bg);color:var(--green);border:1px solid var(--green-dim);}
 .impact-down{background:var(--red-bg);color:var(--red);border:1px solid var(--red-dim);}
 .impact-neutral{background:var(--bg4);color:var(--text3);border:1px solid var(--border2);}
@@ -165,190 +182,223 @@ body{font-family:var(--font);color:var(--text);font-size:14px;-webkit-font-smoot
 /* ── EMAIL ── */
 .email-item{padding:12px 0;border-bottom:1px solid var(--border);cursor:pointer;}
 .email-item:last-child{border-bottom:none;}
-.email-item:active{background:var(--bg3);margin:0 -16px;padding:12px 16px;}
+.email-item:active{background:var(--bg3);margin:0 -14px;padding:12px 14px;}
 .email-from{font-size:13px;font-weight:500;color:var(--text2);}
 .email-subject{font-size:12px;color:var(--text3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .email-unread .email-from{color:var(--blue);}
 .email-unread .email-subject{color:var(--text);}
-.email-mystery .email-from{color:var(--purple);}
-.email-mystery .email-subject{color:var(--purple);}
+.email-mystery .email-from,.email-mystery .email-subject{color:var(--purple);}
 .unread-dot{width:6px;height:6px;background:var(--blue);border-radius:50%;flex-shrink:0;margin-top:3px;}
 .mystery-dot{width:6px;height:6px;background:var(--purple);border-radius:50%;flex-shrink:0;margin-top:3px;box-shadow:0 0 6px var(--purple);}
 
 /* ── PORTFOLIO ── */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
-.stat-card{background:var(--bg3);border-radius:var(--radius-sm);padding:12px 14px;border:1px solid var(--border);}
+.stat-card{background:var(--bg3);border-radius:var(--rs);padding:12px 12px;border:1px solid var(--border);}
 .stat-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:5px;font-weight:600;}
-.stat-val{font-size:17px;font-weight:500;font-family:var(--mono);}
-.holding-row{display:flex;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);gap:10px;}
+.stat-val{font-size:16px;font-weight:500;font-family:var(--mono);}
+.holding-row{display:flex;align-items:center;padding:11px 0;border-bottom:1px solid var(--border);gap:10px;}
 .holding-row:last-child{border-bottom:none;}
 
 /* ── NOTIFICATIONS ── */
-#notif-area{position:fixed;top:calc(58px + var(--safe-top));right:12px;display:flex;flex-direction:column;gap:8px;z-index:800;pointer-events:none;width:268px;}
-.notif{background:rgba(17,17,20,0.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border2);border-radius:var(--radius);padding:10px 13px;font-size:12px;pointer-events:all;animation:notifIn 0.25s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 8px 32px rgba(0,0,0,0.5);}
+#notif-area{position:fixed;top:calc(56px + var(--st));right:10px;display:flex;flex-direction:column;gap:7px;z-index:800;pointer-events:none;width:260px;}
+.notif{background:rgba(12,12,14,0.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--border2);border-radius:var(--r);padding:10px 12px;font-size:12px;pointer-events:all;animation:notifIn 0.3s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 8px 32px rgba(0,0,0,0.6);}
 .notif-header{display:flex;align-items:center;gap:8px;margin-bottom:3px;}
 .notif-sender{font-weight:500;font-size:12px;flex:1;}
 .notif-msg{color:var(--text2);line-height:1.4;font-size:11px;}
 .notif-close{cursor:pointer;color:var(--text3);font-size:16px;line-height:1;}
-@keyframes notifIn{from{opacity:0;transform:translateX(20px) scale(0.95);}to{opacity:1;transform:translateX(0) scale(1);}}
+@keyframes notifIn{from{opacity:0;transform:translateX(16px) scale(0.95);}to{opacity:1;transform:translateX(0) scale(1);}}
 
 /* ── AVATAR ── */
 .avatar{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-family:var(--mono);}
 .av-wagner{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-dim);}
 .av-mark{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-dim);}
-.av-claire{background:#1a0d2e;color:#c084fc;border:1px solid #6b21a8;}
+.av-claire{background:#140a24;color:#c084fc;border:1px solid #5a1a96;}
 .av-system{background:var(--bg4);color:var(--text3);border:1px solid var(--border2);}
 .av-hr{background:var(--bg4);color:var(--text3);border:1px solid var(--border2);}
-.av-marshall{background:#111;color:#666;border:1px solid #2a2a2a;}
+.av-marshall{background:#0e0e0e;color:#555;border:1px solid #222;}
 .av-mystery{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-dim);}
 
 /* ── OVERLAYS ── */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:400;padding:16px;animation:fadeIn 0.2s ease;}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:flex-end;justify-content:center;z-index:400;animation:fadeIn 0.2s ease;}
+@media(min-width:480px){.overlay{align-items:center;padding:16px;}}
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-.overlay-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);width:100%;max-width:460px;overflow:hidden;animation:cardIn 0.25s cubic-bezier(0.34,1.2,0.64,1);box-shadow:0 24px 64px rgba(0,0,0,0.6);}
+.overlay-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rxl) var(--rxl) 0 0;width:100%;max-width:460px;overflow:hidden;animation:sheetUp 0.3s cubic-bezier(0.34,1.1,0.64,1);box-shadow:0 -8px 48px rgba(0,0,0,0.5);}
+@media(min-width:480px){.overlay-card{border-radius:var(--rl);animation:cardIn 0.25s cubic-bezier(0.34,1.2,0.64,1);box-shadow:0 24px 64px rgba(0,0,0,0.6);}}
+@keyframes sheetUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
 @keyframes cardIn{from{opacity:0;transform:scale(0.94) translateY(8px);}to{opacity:1;transform:scale(1) translateY(0);}}
 .overlay-header{padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
 .overlay-body{padding:16px;}
 .overlay-actions{padding:12px 16px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px;}
-.obtn{padding:9px 20px;border-radius:var(--radius-sm);font-size:13px;cursor:pointer;font-weight:500;border:1px solid var(--border2);background:var(--bg3);color:var(--text);font-family:var(--font);transition:all 0.15s;}
+.obtn{padding:10px 20px;border-radius:var(--rs);font-size:13px;cursor:pointer;font-weight:500;border:1px solid var(--border2);background:var(--bg3);color:var(--text);font-family:var(--font);transition:all 0.15s;}
 .obtn.primary{background:var(--blue);color:#000;border-color:var(--blue);font-weight:600;}
 .obtn:active{opacity:0.75;}
 
 /* ── STORY ── */
 #story-text{font-size:14px;line-height:1.75;color:var(--text);}
 #story-actions{display:flex;flex-direction:column;gap:7px;padding:12px 16px;border-top:1px solid var(--border);}
-.story-choice{width:100%;padding:11px 16px;border-radius:var(--radius-sm);font-size:13px;cursor:pointer;font-weight:400;border:1px solid var(--border2);background:var(--bg3);color:var(--text);font-family:var(--font);text-align:left;transition:all 0.15s;}
+.story-choice{width:100%;padding:12px 16px;border-radius:var(--rs);font-size:13px;cursor:pointer;font-weight:400;border:1px solid var(--border2);background:var(--bg3);color:var(--text);font-family:var(--font);text-align:left;transition:all 0.15s;}
 .story-choice.primary-choice{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-dim);}
 .story-choice:active{opacity:0.7;}
+
+/* ── SAVE ── */
+#save-btn{position:fixed;bottom:calc(72px + var(--sb));right:14px;width:38px;height:38px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;font-size:15px;transition:all 0.2s;box-shadow:0 4px 16px rgba(0,0,0,0.5);}
+@media(min-width:640px){#save-btn{bottom:calc(16px + var(--sb));}}
+#save-btn:active{transform:scale(0.88);}
+#save-toast{position:fixed;bottom:calc(120px + var(--sb));right:14px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rs);padding:6px 12px;font-size:11px;color:var(--text2);font-family:var(--mono);z-index:200;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;}
+@media(min-width:640px){#save-toast{bottom:calc(64px + var(--sb));}}
 </style>
 
 <style>
 /* ── VN CUTSCENE ── */
 #cutscene{
   position:fixed;inset:0;z-index:600;
-  display:none;flex-direction:column;
-  background:var(--bg);
+  display:none;flex-direction:column;background:var(--bg);
 }
 #cs-bg{position:absolute;inset:0;overflow:hidden;}
-/* ambient orbs that move slowly behind the scene */
 .cs-orb{
-  position:absolute;border-radius:50%;
-  filter:blur(90px);pointer-events:none;
-  transition:background 1.2s ease, opacity 1s ease;
-  animation:csOrbDrift linear infinite;
+  position:absolute;border-radius:50%;filter:blur(110px);pointer-events:none;
+  animation:csOrb linear infinite;
+  transition:background 1.5s ease;
 }
-@keyframes csOrbDrift{
-  0%{transform:translate(0,0);}
-  25%{transform:translate(30px,-20px);}
-  50%{transform:translate(-20px,30px);}
-  75%{transform:translate(20px,20px);}
-  100%{transform:translate(0,0);}
+@keyframes csOrb{
+  0%{transform:translate(0,0) scale(1);}
+  25%{transform:translate(60px,-50px) scale(1.12);}
+  50%{transform:translate(-40px,70px) scale(0.9);}
+  75%{transform:translate(50px,30px) scale(1.06);}
+  100%{transform:translate(0,0) scale(1);}
+}
+/* secondary orb drifts opposite */
+.cs-orb.b{animation-name:csOrbB;}
+@keyframes csOrbB{
+  0%{transform:translate(0,0) scale(1);}
+  30%{transform:translate(-50px,40px) scale(0.92);}
+  60%{transform:translate(60px,-30px) scale(1.1);}
+  100%{transform:translate(0,0) scale(1);}
 }
 #cs-grid{
   position:absolute;inset:0;
-  background:repeating-linear-gradient(0deg,transparent,transparent 48px,rgba(255,255,255,0.014) 48px,rgba(255,255,255,0.014) 49px),
-             repeating-linear-gradient(90deg,transparent,transparent 48px,rgba(255,255,255,0.014) 48px,rgba(255,255,255,0.014) 49px);
+  background:
+    repeating-linear-gradient(0deg,transparent,transparent 52px,rgba(255,255,255,0.012) 52px,rgba(255,255,255,0.012) 53px),
+    repeating-linear-gradient(90deg,transparent,transparent 52px,rgba(255,255,255,0.012) 52px,rgba(255,255,255,0.012) 53px);
   pointer-events:none;
 }
-/* blur vignette so orbs feel atmospheric */
 #cs-vignette{
   position:absolute;inset:0;
-  background:radial-gradient(ellipse at center, transparent 30%, rgba(10,10,12,0.7) 100%);
+  background:radial-gradient(ellipse at 50% 40%, transparent 20%, rgba(8,8,9,0.65) 100%);
   pointer-events:none;
+}
+/* scene label — subtle location text top-left */
+#cs-scene-label{
+  position:absolute;top:calc(16px + var(--st));left:16px;
+  font-size:9px;color:rgba(255,255,255,0.2);font-family:var(--mono);
+  text-transform:uppercase;letter-spacing:1.5px;z-index:2;
+  transition:opacity 0.6s;
 }
 #cs-portrait-area{
   flex:1;display:flex;align-items:center;justify-content:center;
   position:relative;z-index:1;
 }
 #cs-portrait{
-  width:140px;height:140px;border-radius:50%;
+  width:130px;height:130px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  font-size:44px;font-weight:700;font-family:var(--mono);
+  font-size:40px;font-weight:700;font-family:var(--mono);
   border:2px solid currentColor;
-  box-shadow:0 0 60px rgba(0,0,0,0.8);
+  box-shadow:0 0 80px rgba(0,0,0,0.9);
   transition:all 0.5s cubic-bezier(0.34,1.2,0.64,1);
-  opacity:0;transform:scale(0.8);
+  opacity:0;transform:scale(0.75) translateY(10px);
 }
-#cs-portrait.visible{opacity:1;transform:scale(1);}
-/* narrator has no portrait — show a subtle icon */
-#cs-narrator-icon{
-  font-size:28px;opacity:0.25;
-  transition:opacity 0.4s;
-}
+#cs-portrait.visible{opacity:1;transform:scale(1) translateY(0);}
+#cs-narrator-icon{font-size:24px;opacity:0.15;transition:opacity 0.4s;position:absolute;}
 #cs-dialogue{
-  background:rgba(10,10,12,0.93);
-  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  border-top:1px solid var(--border2);
-  padding:20px 22px;
-  padding-bottom:calc(20px + var(--safe-bottom));
-  min-height:200px;position:relative;z-index:1;
+  background:rgba(8,8,9,0.94);
+  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  border-top:1px solid rgba(255,255,255,0.06);
+  padding:18px 20px;
+  padding-bottom:calc(18px + var(--sb));
+  min-height:195px;position:relative;z-index:1;
 }
-#cs-progress{display:flex;gap:4px;margin-bottom:14px;}
-.cs-dot{height:2px;flex:1;background:var(--border2);border-radius:1px;transition:background 0.3s;}
+#cs-progress{display:flex;gap:3px;margin-bottom:12px;}
+.cs-dot{height:2px;flex:1;background:rgba(255,255,255,0.08);border-radius:1px;transition:background 0.4s;}
 .cs-dot.done{background:var(--blue);}
-.cs-dot.active{background:var(--text2);}
-#cs-speaker{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:9px;font-family:var(--mono);transition:color 0.4s;}
-#cs-text{font-size:15px;line-height:1.72;color:var(--text);min-height:72px;}
-/* choice buttons inside cutscene */
+.cs-dot.active{background:rgba(255,255,255,0.4);}
+#cs-speaker{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:10px;font-family:var(--mono);transition:color 0.5s;}
+#cs-text{font-size:15px;line-height:1.72;color:var(--text);min-height:68px;}
 #cs-choices{display:flex;flex-direction:column;gap:7px;margin-top:14px;}
 .cs-choice{
-  width:100%;padding:11px 16px;border-radius:var(--radius-sm);
+  width:100%;padding:12px 16px;border-radius:var(--rs);
   font-size:13px;cursor:pointer;font-weight:400;
-  border:1px solid var(--border2);background:rgba(32,32,38,0.8);
+  border:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.04);
   color:var(--text);font-family:var(--font);text-align:left;
-  transition:all 0.15s;backdrop-filter:blur(8px);
+  transition:all 0.15s;
 }
 .cs-choice.highlight{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-dim);}
-.cs-choice:active{opacity:0.7;}
+.cs-choice:active{opacity:0.65;}
 #cs-tap-hint{
-  position:absolute;bottom:calc(18px + var(--safe-bottom));right:22px;
-  font-size:10px;color:var(--text3);font-family:var(--mono);
-  animation:blink 1.8s infinite;
+  position:absolute;bottom:calc(16px + var(--sb));right:20px;
+  font-size:9px;color:rgba(255,255,255,0.2);font-family:var(--mono);
+  animation:blink 2s infinite;letter-spacing:0.5px;
 }
-@keyframes blink{0%,100%{opacity:0.25;}50%{opacity:0.8;}}
+@keyframes blink{0%,100%{opacity:0.2;}50%{opacity:0.7;}}
 
 /* ── PHONE ── */
-#phone-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);width:100%;max-width:340px;overflow:hidden;animation:cardIn 0.25s cubic-bezier(0.34,1.2,0.64,1);box-shadow:0 24px 64px rgba(0,0,0,0.6);}
-#phone-header{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg3);}
-#phone-msgs{padding:12px;height:210px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;background:var(--bg);}
-.msg-bubble{max-width:80%;padding:9px 13px;border-radius:16px;font-size:13px;line-height:1.45;}
+#phone-card{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:var(--rxl) var(--rxl) 0 0;
+  width:100%;max-width:380px;overflow:hidden;
+  animation:sheetUp 0.3s cubic-bezier(0.34,1.1,0.64,1);
+  box-shadow:0 -8px 48px rgba(0,0,0,0.5);
+}
+@media(min-width:480px){#phone-card{border-radius:var(--rl);animation:cardIn 0.25s cubic-bezier(0.34,1.2,0.64,1);}}
+#phone-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg3);}
+#phone-msgs{padding:12px;height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;background:var(--bg);}
+.msg-bubble{max-width:78%;padding:9px 13px;border-radius:16px;font-size:13px;line-height:1.45;}
 .msg-them{background:var(--bg4);color:var(--text);align-self:flex-start;border-bottom-left-radius:4px;}
 .msg-me{background:var(--blue);color:#000;align-self:flex-end;border-bottom-right-radius:4px;font-weight:500;}
-#phone-presets{padding:10px 12px;border-top:1px solid var(--border);background:var(--bg2);}
-.preset-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:7px;font-family:var(--mono);}
+/* presets hidden until NPC has spoken */
+#phone-presets{padding:10px 12px 14px;border-top:1px solid var(--border);background:var(--bg2);display:none;}
+#phone-presets.visible{display:block;}
+.preset-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;font-family:var(--mono);}
 .preset-chips{display:flex;flex-wrap:wrap;gap:6px;}
-.preset-chip{padding:7px 13px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-family:var(--font);transition:all 0.15s;white-space:nowrap;}
+.preset-chip{
+  padding:8px 14px;border-radius:20px;font-size:12px;cursor:pointer;
+  border:1px solid var(--border2);background:var(--bg3);color:var(--text2);
+  font-family:var(--font);transition:all 0.15s;
+}
 .preset-chip:active{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-dim);}
 
 /* ── EMAIL DETAIL ── */
-#email-detail-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);width:100%;max-width:500px;overflow:hidden;animation:cardIn 0.25s cubic-bezier(0.34,1.2,0.64,1);box-shadow:0 24px 64px rgba(0,0,0,0.6);}
+#email-detail-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rxl) var(--rxl) 0 0;width:100%;max-width:500px;overflow:hidden;animation:sheetUp 0.3s cubic-bezier(0.34,1.1,0.64,1);box-shadow:0 -8px 48px rgba(0,0,0,0.5);}
+@media(min-width:480px){#email-detail-card{border-radius:var(--rl);animation:cardIn 0.25s cubic-bezier(0.34,1.2,0.64,1);}}
 #email-detail-subject{font-size:15px;font-weight:500;margin-bottom:6px;color:var(--text);}
-#email-detail-meta{font-size:11px;color:var(--text3);display:flex;gap:12px;font-family:var(--mono);}
-#email-detail-body{padding:16px;font-size:13px;line-height:1.85;color:var(--text2);max-height:320px;overflow-y:auto;white-space:pre-wrap;border-top:1px solid var(--border);}
+#email-detail-meta{font-size:11px;color:var(--text3);display:flex;gap:12px;font-family:var(--mono);flex-wrap:wrap;}
+#email-detail-body{padding:16px;font-size:13px;line-height:1.85;color:var(--text2);max-height:300px;overflow-y:auto;white-space:pre-wrap;border-top:1px solid var(--border);}
 
 /* ── TRADE ── */
-#trade-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);width:100%;max-width:320px;overflow:hidden;animation:cardIn 0.25s cubic-bezier(0.34,1.2,0.64,1);box-shadow:0 24px 64px rgba(0,0,0,0.6);}
+#trade-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rxl) var(--rxl) 0 0;width:100%;max-width:320px;overflow:hidden;animation:sheetUp 0.3s cubic-bezier(0.34,1.1,0.64,1);box-shadow:0 -8px 48px rgba(0,0,0,0.5);}
+@media(min-width:480px){#trade-card{border-radius:var(--rl);animation:cardIn 0.25s cubic-bezier(0.34,1.2,0.64,1);}}
 .trade-row{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;align-items:center;}
 .trade-row span:first-child{color:var(--text3);}
 .trade-row span:last-child{font-family:var(--mono);}
 
 /* ── MARSHALL ── */
-#marshall-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(30,8,8,0.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--red-dim);padding:12px 20px;padding-bottom:calc(12px + var(--safe-bottom));font-size:13px;color:var(--red);display:flex;align-items:center;gap:12px;z-index:700;animation:slideUp 0.3s ease;}
+#marshall-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(24,8,8,0.98);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--red-dim);padding:14px 20px;padding-bottom:calc(14px + var(--sb));font-size:13px;color:var(--red);display:flex;align-items:center;gap:12px;z-index:700;animation:slideUp 0.3s ease;}
 @keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
 
 /* ── END SCREEN ── */
-#endscreen{position:fixed;inset:0;background:rgba(0,0,0,0.94);display:flex;align-items:center;justify-content:center;z-index:900;padding:20px;}
-#endcard{background:var(--bg2);border:1px solid var(--border2);border-radius:22px;width:100%;max-width:440px;padding:32px;text-align:center;box-shadow:0 32px 80px rgba(0,0,0,0.7);}
-#end-title{font-size:28px;font-weight:600;margin-bottom:8px;}
-#end-sub{font-size:14px;color:var(--text2);line-height:1.65;margin-bottom:24px;}
-#end-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
-.end-stat{background:var(--bg3);border-radius:var(--radius-sm);padding:12px;border:1px solid var(--border);}
+#endscreen{position:fixed;inset:0;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;z-index:900;padding:20px;}
+#endcard{background:var(--bg2);border:1px solid var(--border2);border-radius:24px;width:100%;max-width:420px;padding:32px;text-align:center;box-shadow:0 32px 80px rgba(0,0,0,0.8);}
+#end-title{font-size:26px;font-weight:600;margin-bottom:8px;}
+#end-sub{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:24px;}
+#end-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px;}
+.end-stat{background:var(--bg3);border-radius:var(--rs);padding:12px;border:1px solid var(--border);}
 .end-stat-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;font-weight:600;}
-.end-stat-val{font-size:18px;font-weight:500;font-family:var(--mono);}
+.end-stat-val{font-size:17px;font-weight:500;font-family:var(--mono);}
 #restart-btn{background:var(--blue);color:#000;border:none;padding:13px 36px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font);}
 
 /* ── MYSTERY ── */
-#mystery-notif{position:fixed;bottom:calc(70px + var(--safe-bottom));right:16px;background:rgba(21,10,36,0.97);border:1px solid var(--purple-dim);border-radius:var(--radius);padding:12px 16px;font-size:13px;color:var(--purple);z-index:500;animation:notifIn 0.3s ease;max-width:230px;cursor:pointer;backdrop-filter:blur(16px);}
+#mystery-notif{position:fixed;bottom:calc(72px + var(--sb));right:14px;background:rgba(16,8,32,0.97);border:1px solid var(--purple-dim);border-radius:var(--r);padding:12px 16px;font-size:13px;color:var(--purple);z-index:500;animation:notifIn 0.3s ease;max-width:220px;cursor:pointer;backdrop-filter:blur(20px);}
+@media(min-width:640px){#mystery-notif{bottom:calc(20px + var(--sb));}}
 
 input[type=number]{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:5px 9px;font-size:13px;color:var(--text);outline:none;font-family:var(--mono);width:80px;text-align:right;}
 input[type=number]:focus{border-color:var(--blue-dim);}
@@ -360,16 +410,16 @@ input[type=number]:focus{border-color:var(--blue-dim);}
 <!-- ══ MAIN MENU ══ -->
 <div id="main-menu">
   <div id="menu-bg">
-    <div class="menu-orb" style="width:400px;height:400px;background:#0a2a5c;top:-100px;left:-100px;animation-duration:18s;"></div>
-    <div class="menu-orb" style="width:300px;height:300px;background:#150a24;bottom:-80px;right:-60px;animation-duration:22s;animation-delay:-8s;"></div>
-    <div class="menu-orb" style="width:200px;height:200px;background:#071e12;bottom:30%;left:20%;animation-duration:15s;animation-delay:-4s;"></div>
+    <div class="menu-orb" style="width:420px;height:420px;background:#081830;opacity:0.22;top:-120px;left:-100px;animation-duration:20s;"></div>
+    <div class="menu-orb b" style="width:320px;height:320px;background:#100820;opacity:0.18;bottom:-80px;right:-80px;animation-duration:26s;animation-delay:-9s;"></div>
+    <div class="menu-orb" style="width:200px;height:200px;background:#051410;opacity:0.15;bottom:35%;left:15%;animation-duration:16s;animation-delay:-5s;"></div>
   </div>
   <div id="menu-content">
     <div id="menu-logo"><span>Meridian</span> Capital</div>
     <div id="menu-tagline">a trading floor story</div>
-    <button class="menu-btn primary" onclick="startNewGame()">&#9654; New Game</button>
-    <button class="menu-btn" id="load-btn" onclick="loadGame()">&#8635; Load Game</button>
-    <button class="menu-btn" onclick="quitGame()" style="color:var(--text3);">&#215; Quit</button>
+    <button class="menu-btn primary" onclick="startNewGame()">&#9654;&nbsp; New Game</button>
+    <button class="menu-btn" id="load-btn" onclick="loadGame()">&#8635;&nbsp; Load Game</button>
+    <button class="menu-btn" onclick="quitGame()" style="color:var(--text3);border-color:var(--border);">&#215;&nbsp; Quit</button>
     <div id="menu-version">v3.0 · meridian capital</div>
   </div>
 </div>
@@ -383,13 +433,14 @@ input[type=number]:focus{border-color:var(--blue-dim);}
       <div id="day-indicator">DAY 1 · ACT 1</div>
     </div>
     <div id="topbar-right">
-      <div id="rent-ticker">Rent: Friday</div>
+      <div id="rent-ticker">Rent: Fri</div>
       <div class="tstat"><div class="tstat-label">Cash</div><div class="tstat-value" id="cash-disp">$10,000</div></div>
-      <div class="tstat"><div class="tstat-label">Portfolio</div><div class="tstat-value" id="port-disp">$0</div></div>
       <div class="tstat"><div class="tstat-label">P&amp;L</div><div class="tstat-value" id="pnl-disp">$0</div></div>
     </div>
   </div>
+
   <div id="main">
+    <!-- sidebar (tablet+) -->
     <div id="sidebar">
       <div class="sidebar-label">Market</div>
       <div class="nav-item active" onclick="showView('market')"><span class="nav-icon">📈</span>Live Market</div>
@@ -397,8 +448,8 @@ input[type=number]:focus{border-color:var(--blue-dim);}
       <div class="nav-item" onclick="showView('news')"><span class="nav-icon">📰</span>News Feed</div>
       <div class="sidebar-divider"></div>
       <div class="sidebar-label">Office</div>
-      <div class="nav-item" onclick="showView('email')" id="email-nav"><span class="nav-icon">✉️</span>Inbox<span class="badge" id="email-badge" style="display:none">0</span></div>
-      <div class="nav-item" id="phone-nav" onclick="showView('phone')"><span class="nav-icon">📱</span>Messages<span class="badge" id="phone-badge" style="display:none">0</span></div>
+      <div class="nav-item" onclick="showView('email')"><span class="nav-icon">✉️</span>Inbox<span class="badge" id="email-badge" style="display:none">0</span></div>
+      <div class="nav-item" onclick="showView('phone')"><span class="nav-icon">📱</span>Messages<span class="badge" id="phone-badge-s" style="display:none">0</span></div>
       <div class="sidebar-divider"></div>
       <div class="sidebar-label">Contacts</div>
       <div class="contact-row" onclick="openPhone('mark')">
@@ -417,10 +468,11 @@ input[type=number]:focus{border-color:var(--blue-dim);}
         <div class="rep-bar-wrap"><div class="rep-bar" id="rep-wagner" style="width:50%;background:var(--blue);"></div></div>
       </div>
     </div>
+
     <div id="content">
       <div id="view-market" class="view">
         <div class="panel">
-          <div class="panel-header"><span class="panel-title">Live Market</span><span class="status-live" id="mkt-status">OPEN</span></div>
+          <div class="panel-header"><span class="panel-title">Live Market</span><span class="status-live">OPEN</span></div>
           <div class="panel-body" id="stocks-list"></div>
         </div>
       </div>
@@ -455,12 +507,31 @@ input[type=number]:focus{border-color:var(--blue-dim);}
       </div>
     </div>
   </div>
+
+  <!-- bottom nav (mobile) -->
+  <div id="bottom-nav">
+    <div class="bnav-item active" onclick="showView('market')" id="bn-market">
+      <span class="bnav-icon">📈</span><span>Market</span>
+    </div>
+    <div class="bnav-item" onclick="showView('portfolio')" id="bn-portfolio">
+      <span class="bnav-icon">💼</span><span>Portfolio</span>
+    </div>
+    <div class="bnav-item" onclick="showView('news')" id="bn-news">
+      <span class="bnav-icon">📰</span><span>News</span>
+    </div>
+    <div class="bnav-item" onclick="showView('email')" id="bn-email">
+      <span class="bnav-icon">✉️</span><span>Inbox</span>
+      <span class="bnav-badge" id="email-badge-m" style="display:none">0</span>
+    </div>
+    <div class="bnav-item" onclick="showView('phone')" id="bn-phone">
+      <span class="bnav-icon">📱</span><span>Messages</span>
+      <span class="bnav-badge" id="phone-badge" style="display:none">0</span>
+    </div>
+  </div>
 </div>
 
-<!-- SAVE BUTTON -->
-<div id="save-btn" onclick="saveGame()" title="Save game">💾</div>
+<div id="save-btn" onclick="saveGame()" title="Save">💾</div>
 <div id="save-toast">Saved</div>
-
 <div id="notif-area"></div>
 
 <!-- STORY OVERLAY -->
@@ -489,7 +560,7 @@ input[type=number]:focus{border-color:var(--blue-dim);}
           <div style="font-size:10px;color:var(--text3);">Messages</div>
         </div>
       </div>
-      <div style="cursor:pointer;color:var(--text3);font-size:22px;line-height:1;" onclick="closePhone()">×</div>
+      <div style="cursor:pointer;color:var(--text3);font-size:22px;line-height:1;padding:4px;" onclick="closePhone()">×</div>
     </div>
     <div id="phone-msgs"></div>
     <div id="phone-presets">
@@ -529,11 +600,12 @@ input[type=number]:focus{border-color:var(--blue-dim);}
 <!-- VN CUTSCENE -->
 <div id="cutscene">
   <div id="cs-bg">
-    <div class="cs-orb" id="cs-orb1" style="width:350px;height:350px;top:-80px;left:-80px;animation-duration:20s;"></div>
-    <div class="cs-orb" id="cs-orb2" style="width:280px;height:280px;bottom:-60px;right:-60px;animation-duration:25s;animation-delay:-10s;"></div>
-    <div class="cs-orb" id="cs-orb3" style="width:180px;height:180px;top:40%;left:50%;animation-duration:17s;animation-delay:-5s;"></div>
+    <div class="cs-orb" id="cs-orb1" style="width:380px;height:380px;top:-100px;left:-80px;animation-duration:22s;"></div>
+    <div class="cs-orb b" id="cs-orb2" style="width:300px;height:300px;bottom:-70px;right:-70px;animation-duration:28s;animation-delay:-12s;"></div>
+    <div class="cs-orb" id="cs-orb3" style="width:160px;height:160px;top:35%;left:55%;animation-duration:18s;animation-delay:-6s;opacity:0.6;"></div>
     <div id="cs-grid"></div>
     <div id="cs-vignette"></div>
+    <div id="cs-scene-label"></div>
   </div>
   <div id="cs-portrait-area">
     <div id="cs-narrator-icon">✦</div>
@@ -560,111 +632,67 @@ input[type=number]:focus{border-color:var(--blue-dim);}
 
 <script>
 // ══ SAVE / LOAD ══
-const SAVE_KEY = 'meridian_v3_save';
-
-function saveGame() {
-  try {
-    const data = {
-      S: {
-        ...S,
-        emailsRead: [...S.emailsRead],
-        shownBeats: [...(S.shownBeats||[])]
-      },
-      stocks: stocks.map(s=>({ticker:s.ticker,price:s.price,history:s.history.slice(-30)})),
-      emails: emails,
-      ts: Date.now()
-    };
-    localStorage.setItem(SAVE_KEY, JSON.stringify(data));
-    const toast = document.getElementById('save-toast');
-    toast.style.opacity = '1';
-    setTimeout(()=>toast.style.opacity='0', 1800);
-  } catch(e) { console.warn('Save failed', e); }
+const SAVE_KEY='meridian_v3';
+function saveGame(){
+  try{
+    const d={S:{...S,emailsRead:[...S.emailsRead],shownBeats:[...(S.shownBeats||[])]},stocks:stocks.map(s=>({ticker:s.ticker,price:s.price,history:s.history.slice(-30)})),emails,ts:Date.now()};
+    localStorage.setItem(SAVE_KEY,JSON.stringify(d));
+    const t=document.getElementById('save-toast');t.style.opacity='1';setTimeout(()=>t.style.opacity='0',1800);
+  }catch(e){}
 }
-
-function hasSave() {
-  try { return !!localStorage.getItem(SAVE_KEY); } catch(e){ return false; }
-}
-
-function loadGame() {
-  try {
-    const raw = localStorage.getItem(SAVE_KEY);
-    if(!raw) return;
-    const data = JSON.parse(raw);
-    Object.assign(S, data.S);
-    S.emailsRead = new Set(data.S.emailsRead||[]);
-    S.shownBeats = new Set(data.S.shownBeats||[]);
-    data.stocks.forEach(saved=>{
-      const s = stocks.find(x=>x.ticker===saved.ticker);
-      if(s){ s.price=saved.price; s.history=saved.history; }
-    });
-    if(data.emails) { emails.length=0; data.emails.forEach(e=>emails.push(e)); }
+function hasSave(){try{return!!localStorage.getItem(SAVE_KEY);}catch(e){return false;}}
+function loadGame(){
+  try{
+    const raw=localStorage.getItem(SAVE_KEY);if(!raw)return;
+    const d=JSON.parse(raw);
+    Object.assign(S,d.S);S.emailsRead=new Set(d.S.emailsRead||[]);S.shownBeats=new Set(d.S.shownBeats||[]);
+    d.stocks.forEach(sv=>{const s=stocks.find(x=>x.ticker===sv.ticker);if(s){s.price=sv.price;s.history=sv.history;}});
+    if(d.emails){emails.length=0;d.emails.forEach(e=>emails.push(e));}
     bootGame();
-  } catch(e) { console.warn('Load failed', e); startNewGame(); }
+  }catch(e){startNewGame();}
 }
-
-function startNewGame() {
-  try { localStorage.removeItem(SAVE_KEY); } catch(e){}
-  bootGame();
-  // start cutscene fresh
-  setTimeout(()=>playCutscene('day1_opening'), 400);
+function startNewGame(){try{localStorage.removeItem(SAVE_KEY);}catch(e){}bootGame();setTimeout(()=>playCutscene('day1_opening'),400);}
+function quitGame(){if(confirm('Quit?'))window.close();}
+function bootGame(){
+  document.getElementById('main-menu').style.display='none';
+  document.getElementById('game').style.display='flex';
+  document.getElementById('cutscene').style.display='none';
+  showView('market');renderEmails();updateTopBar();scheduleMarshall();
+  if(!marketInterval)marketInterval=setInterval(tickMarket,3000);
+  if(!newsInterval)newsInterval=setInterval(()=>{if(Date.now()-lastNews>nextNews){fireRandomNews();lastNews=Date.now();nextNews=40000+Math.random()*50000;}},5000);
 }
+window.addEventListener('DOMContentLoaded',()=>{if(!hasSave())document.getElementById('load-btn').classList.add('disabled');});
 
-function quitGame() {
-  if(confirm('Quit to desktop?')) window.close();
-}
-
-function bootGame() {
-  document.getElementById('main-menu').style.display = 'none';
-  document.getElementById('game').style.display = 'flex';
-  document.getElementById('cutscene').style.display = 'none';
-  showView('market');
-  renderEmails();
-  updateTopBar();
-  scheduleMarshall();
-  if(!marketInterval) marketInterval = setInterval(tickMarket, 3000);
-  if(!newsInterval) newsInterval = setInterval(()=>{
-    if(Date.now()-lastNews>nextNews){ fireRandomNews(); lastNews=Date.now(); nextNews=40000+Math.random()*50000; }
-  }, 5000);
-}
-
-// check save on menu load
-window.addEventListener('DOMContentLoaded', ()=>{
-  const lb = document.getElementById('load-btn');
-  if(!hasSave()) lb.classList.add('disabled');
-});
-
-// ══ GAME STATE ══
-const S = {
-  cash:10000, rent:1200, rentPaid:false, rentDue:false,
-  day:1, hour:9, minute:2, week:1, act:1,
-  holdings:{}, costBasis:{},
-  emailsRead:new Set(),
-  shownBeats:new Set(),
-  phoneThreads:{mark:[], claire:[]},
-  phoneUnread:{mark:0, claire:0},
-  phoneContact:null, phoneOpenCount:0,
-  rep:{mark:60, claire:20, wagner:50},
+// ══ STATE ══
+const S={
+  cash:10000,rentPaid:false,rentDue:false,
+  day:1,hour:9,minute:2,week:1,act:1,
+  holdings:{},costBasis:{},
+  emailsRead:new Set(),shownBeats:new Set(),
+  phoneThreads:{mark:[],claire:[]},
+  phoneUnread:{mark:0,claire:0},
+  phoneContact:null,phoneOpenCount:0,
+  rep:{mark:60,claire:20,wagner:50},
   newsEvents:[],
-  storyActive:false, cutsceneActive:false,
-  firstTrade:false, warnedPhone:false, wagneredPhone:false,
-  mysteryShown:false, vlrtHinted:false,
-  marshallViolations:0, marshallPatrolActive:false,
-  dayEventsFired:{},
-  gameOver:false
+  storyActive:false,cutsceneActive:false,
+  firstTrade:false,warnedPhone:false,wagneredPhone:false,
+  mysteryShown:false,vlrtHinted:false,
+  marshallViolations:0,marshallPatrolActive:false,
+  dayEventsFired:{},gameOver:false
 };
 
 // ══ STOCKS ══
-const stocks = [
+const stocks=[
   {ticker:'NVRL',name:'NoverlTech Systems',   desc:'Tech / AI infrastructure',price:142.50,history:[],vol:0.025,personality:'momentum'},
   {ticker:'BREW',name:'Coastline Brewing Co.',desc:'Consumer staples',         price:34.20, history:[],vol:0.010,personality:'steady'},
   {ticker:'ARIX',name:'Arix Biomedical',      desc:'Biotech / high risk',      price:89.75, history:[],vol:0.038,personality:'volatile'},
   {ticker:'MNGO',name:'MangoBox Logistics',   desc:'Supply chain',             price:56.10, history:[],vol:0.016,personality:'trending'},
   {ticker:'VLRT',name:'Valort Energy',        desc:'Energy sector (?)',        price:23.80, history:[],vol:0.020,personality:'mystery'}
 ];
-stocks.forEach(s=>{for(let i=0;i<20;i++) s.history.push(s.price*(0.97+Math.random()*0.06)); s.history.push(s.price);});
+stocks.forEach(s=>{for(let i=0;i<20;i++)s.history.push(s.price*(0.97+Math.random()*0.06));s.history.push(s.price);});
 
 // ══ EMAILS ══
-const emails = [
+const emails=[
   {id:1,from:'R. Wagner',full:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',time:'8:58 AM',subj:'Welcome to Meridian Capital',
    body:`Good morning,\n\nWelcome aboard. Today is the beginning of something that could be quite extraordinary — or not, depending on what you do with it.\n\nYou've been given a $10,000 paper trading account. Treat it like it's real. Meridian Capital expects results, not excuses.\n\nI'll be watching your portfolio. We all will.\n\nP.S. No phones on the floor. Officer Marshall takes that very seriously.\n\nBest,\nR. Wagner\nManaging Director, Meridian Capital`},
   {id:2,from:'C. Laurent',full:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',time:'9:00 AM',subj:'Re: New Hire Orientation',
@@ -674,7 +702,7 @@ const emails = [
 ];
 
 // ══ NEWS POOL ══
-const newsPool = [
+const newsPool=[
   {h:'NoverlTech Q3 earnings beat estimates by 12%',t:'NVRL',i:0.06,tone:'up'},
   {h:'Coastline Brewing reports steady holiday season demand',t:'BREW',i:0.02,tone:'up'},
   {h:'Arix Biomedical trial results delayed — FDA review ongoing',t:'ARIX',i:-0.08,tone:'down'},
@@ -694,262 +722,231 @@ const newsPool = [
   {h:'Thursday: profit-taking across sectors after mid-week highs',t:null,i:-0.025,tone:'down'}
 ];
 
-// ══ PHONE PRESETS ══
-const markLines = [
-  "bro ARIX is COOKING rn, trust me on this one 🔥",
-  "yo heard a rumor about NVRL. not saying it's confirmed but... 👀",
-  "honestly VLRT is slept on rn. volatility = opportunity my guy",
-  "dude wagner's not even watching. go big or go home lmao",
-  "I lost like $400 yesterday but I have a PLAN today. different vibe",
-  "bro just put everything in ARIX. what's the worst that could happen",
-  "MNGO is moving, I can feel it in my bones ngl",
-  "okay HEAR ME OUT. 50% NVRL, 50% ARIX. let's GET this bread",
-  "yo did you see VLRT? something's weird with that stock man",
-  "rent week is rent week. we go hard and then we pay bills. that's the play"
+// ══ PHONE DIALOGUE TREES ══
+// Each contact has a tree of nodes. NPC speaks first, then player picks a reply.
+// Each reply leads to a next node (or null = end of scripted tree, fall to pool).
+const markTree={
+  start:{npc:"yo new hire!! welcome to the floor lmao. I'm Mark. don't stress, I got you 😤",
+    replies:[
+      {label:"Thanks. What should I know?",next:'tips',rep:2},
+      {label:"You seem... confident.",next:'confident',rep:0}
+    ]},
+  tips:{npc:"okay so rule one: ARIX. always ARIX. rule two: don't let wagner see you on your phone. rule three: there is no rule three, just vibe.",
+    replies:[
+      {label:"What's your read on today?",next:'today',rep:3},
+      {label:"That's... not great advice.",next:'offended',rep:-2}
+    ]},
+  confident:{npc:"bro I have been here 8 months and I have NOT been fired yet. that's basically a record on this floor 💀",
+    replies:[
+      {label:"That's actually impressive.",next:'tips',rep:3},
+      {label:"Low bar.",next:'lowbar',rep:0}
+    ]},
+  today:{npc:"ARIX is moving weird. either it's about to pop or completely collapse. I'm 80% in so I'm choosing to believe pop.",
+    replies:[
+      {label:"80%?? That's insane.",next:'insane',rep:2},
+      {label:"I'll look into it.",next:null,rep:1}
+    ]},
+  offended:{npc:"okay RUDE. but also fair. just... watch what I do and do the opposite. that's literally the strategy.",
+    replies:[{label:"Noted.",next:null,rep:1}]},
+  lowbar:{npc:"it really is. anyway — market opens in like 2 mins. you ready?",
+    replies:[{label:"As ready as I'll ever be.",next:null,rep:2}]},
+  insane:{npc:"it's called CONVICTION bro. also I really need this to hit, rent week.",
+    replies:[{label:"Same honestly.",next:null,rep:3},{label:"Good luck with that.",next:null,rep:0}]},
+  pool:null
+};
+const claireTree={
+  start:{npc:"Laurent. Claire. We're desk neighbors apparently. I don't do small talk during market hours.",
+    replies:[
+      {label:"Fair enough. Any advice?",next:'advice',rep:3},
+      {label:"Got it. I'll stay out of your way.",next:'respect',rep:2}
+    ]},
+  advice:{npc:"Read the news before you trade. ARIX has been volatile since Q3. BREW is stable if you want something boring but safe. And don't ask Mark for tips.",
+    replies:[
+      {label:"Why not Mark?",next:'mark',rep:2},
+      {label:"Appreciate it.",next:null,rep:4}
+    ]},
+  respect:{npc:"Good instinct. Most new hires spend the first week trying to impress people. It's exhausting to watch.",
+    replies:[{label:"I'll just focus on the work.",next:null,rep:5}]},
+  mark:{npc:"Because the last person who followed his advice lost $800 in a day. He called it 'a learning experience.' It was not.",
+    replies:[
+      {label:"Noted. I'll be careful.",next:null,rep:3},
+      {label:"That's kind of funny.",next:'funny',rep:1}
+    ]},
+  funny:{npc:"It wasn't. Check your inbox — I sent you something useful.",
+    replies:[{label:"Thanks.",next:null,rep:2}]},
+  pool:null
+};
+const markPoolReplies=[
+  {npc:"bro ARIX is COOKING rn 🔥",replies:[{label:"You sure?",next:null,rep:1},{label:"I'll pass.",next:null,rep:0}]},
+  {npc:"yo heard a rumor about NVRL. not confirmed but... 👀",replies:[{label:"What kind of rumor?",next:null,rep:2},{label:"Rumors aren't trades.",next:null,rep:0}]},
+  {npc:"VLRT is weird rn. something's off",replies:[{label:"I noticed that too.",next:null,rep:2},{label:"Everything's weird with VLRT.",next:null,rep:1}]},
+  {npc:"wagner's not watching. go big or go home lmao",replies:[{label:"He's always watching.",next:null,rep:0},{label:"...maybe.",next:null,rep:1}]},
+  {npc:"okay HEAR ME OUT. 50% NVRL, 50% ARIX. let's GET this bread",replies:[{label:"That's actually not terrible.",next:null,rep:2},{label:"I'll think about it.",next:null,rep:1}]}
 ];
-const claireLines = [
-  "Check ARIX before you buy. Volatility this week has been unusual.",
-  "The BREW dip looks like a buying opportunity, objectively.",
-  "NVRL earnings are next week. Factor that into your position size.",
-  "I'd suggest reading the news feed before placing any trades.",
-  "MNGO logistics contract rumor is circulating. Could be noise.",
-  "Don't over-leverage early in the week. Patience has a return.",
-  "VLRT keeps showing up in my screens for the wrong reasons. Be careful.",
-  "The mid-week rally is usually a trap for new traders. Watch it."
+const clairePoolReplies=[
+  {npc:"Check ARIX before you buy. Volatility this week has been unusual.",replies:[{label:"Thanks for the heads up.",next:null,rep:3},{label:"I saw that.",next:null,rep:2}]},
+  {npc:"The mid-week rally is usually a trap for new traders.",replies:[{label:"Good to know.",next:null,rep:3},{label:"I'll be careful.",next:null,rep:2}]},
+  {npc:"VLRT keeps showing up in my screens for the wrong reasons.",replies:[{label:"What do you mean?",next:null,rep:4},{label:"Noted.",next:null,rep:2}]},
+  {npc:"Don't over-leverage early in the week. Patience has a return.",replies:[{label:"Appreciate it.",next:null,rep:3},{label:"Understood.",next:null,rep:2}]}
 ];
-const presets = {
-  mark:{
-    default:[
-      {label:"What are you buying today?",reply:()=>markLines[Math.floor(Math.random()*markLines.length)]},
-      {label:"Any tips?",reply:()=>markLines[Math.floor(Math.random()*4)]},
-      {label:"What's the vibe on the floor?",reply:()=>"honestly? chaotic. perfect conditions ngl 😤"}
-    ],
-    afterLoss:[
-      {label:"Rough day...",reply:()=>"bro same. but tomorrow is a NEW day. different energy fr"},
-      {label:"You were right.",reply:()=>"I mean... I'm not gonna say I told you so. but I told you so 💀"},
-      {label:"I should've listened.",reply:()=>"next time trust the process. my process specifically"}
-    ],
-    afterWin:[
-      {label:"We're eating good.",reply:()=>"LETS GOOO 🔥🔥 told you bro. told you."},
-      {label:"Okay maybe you were onto something.",reply:()=>"MAYBE?? bro I was DEFINITELY onto something lmao"},
-      {label:"Good call on that one.",reply:()=>"I have my moments. mostly moments. but still"}
-    ]
-  },
-  claire:{
-    cold:[
-      {label:"Quick question about ARIX.",reply:()=>"Check the news feed. It's all there.",rep:3},
-      {label:"Thanks for the heads up.",reply:()=>"Don't mention it.",rep:2},
-      {label:"Noted.",reply:()=>"Good."}
-    ],
-    warm:[
-      {label:"Got a sec?",reply:()=>claireLines[Math.floor(Math.random()*claireLines.length)],rep:3},
-      {label:"What do you think about this week?",reply:()=>"Cautiously optimistic. Emphasis on cautiously.",rep:4},
-      {label:"Appreciate it.",reply:()=>"Just don't make me regret it.",rep:2}
-    ],
-    close:[
-      {label:"You free after close?",reply:()=>"...maybe. Why?",rep:5},
-      {label:"I owe you one.",reply:()=>"You owe me several. I'm keeping count.",rep:3},
-      {label:"You always know, don't you.",reply:()=>"Not always. But more often than most.",rep:4}
-    ]
-  }
+
+// track where each contact is in their tree
+const phoneState={mark:{node:'start',poolIdx:0},claire:{node:'start',poolIdx:0}};
+
+// ══ CUTSCENE DATA ══
+const charOrbs={'Richard Wagner':['#081830','#040e1e','#0a1428'],'Mark Rivera':['#1e1000','#140a00','#1a0e00'],'Officer Marshall':['#0a0a0a','#080808','#0c0c0c'],'Claire Laurent':['#100620','#0a0418','#140828'],'Narrator':['#080809','#080809','#080809']};
+const charColors={'Richard Wagner':'#4f9eff','Mark Rivera':'#f5a623','Officer Marshall':'#555555','Claire Laurent':'#c084fc','Narrator':'#303048'};
+const charAv={'Richard Wagner':{cls:'av-wagner',in:'RW'},'Mark Rivera':{cls:'av-mark',in:'MR'},'Officer Marshall':{cls:'av-marshall',in:'OM'},'Claire Laurent':{cls:'av-claire',in:'CL'}};
+const sceneLabels={'office':'Meridian Capital — Trading Floor','hallway':'Meridian Capital — Hallway','exterior':'Street Level — Monday Morning'};
+
+const cutscenes={
+  day1_opening:{scenes:[
+    {speaker:'Narrator',scene:'exterior',text:"Monday. 8:57 AM.\nThe city is already moving. You're not late — you're early.\nFor once in your life, you're early."},
+    {speaker:'Narrator',scene:'exterior',text:"Meridian Capital. 14th floor. You've been here twice: once for the interview, once to sign the paperwork.\nToday is different. Today you actually have to perform."},
+    {speaker:'Narrator',scene:'office',text:"The trading floor is louder than you expected. Phones ringing. Someone arguing about ARIX. A printer jamming in the corner.\nNobody looks up when you walk in."},
+    {speaker:'Richard Wagner',scene:'office',text:"Ah — there you are.",choices:null},
+    {speaker:'Richard Wagner',scene:'office',text:"I'd say 'make yourself at home,' but this is not your home. This is a trading floor. It eats the unprepared for breakfast and the overconfident for lunch.",choices:null},
+    {speaker:'Richard Wagner',scene:'office',text:"I'll be direct. The VP of Investments was let go this morning. 'Unforeseen circumstances.' The floor is unsettled. I need people who can keep their heads down and perform.",
+     choices:[
+       {label:"I can do that.",effect:{rep:'wagner',d:4},next:6},
+       {label:"What happened to the VP?",effect:{rep:'wagner',d:-3},next:6}
+     ]},
+    {speaker:'Richard Wagner',scene:'office',text:"Good. Ten thousand to start. By end of week — 10% return. That's the bar. I don't move it.",choices:null},
+    {speaker:'Narrator',scene:'office',text:"Before Wagner can finish, a voice cuts through the noise from three desks over. Loud. Enthusiastic. Completely unaware of the tension in the room."},
+    {speaker:'Mark Rivera',scene:'office',text:"YO. New hire! Welcome to the circus. I'm Mark. Don't let Wagner scare you — he's basically a golden retriever in a suit. A very expensive suit.",choices:null},
+    {speaker:'Mark Rivera',scene:'office',text:"Okay so here's the thing. ARIX is about to absolutely POP. I'm 80% in. You should get in before it moves. I'll walk you through everything.",
+     choices:[
+       {label:"80%? That seems... aggressive.",effect:{rep:'mark',d:3},next:10},
+       {label:"Tell me more.",effect:{rep:'mark',d:6},next:10}
+     ]},
+    {speaker:'Mark Rivera',scene:'office',text:"Aggressive is how you make money, my guy. Also — I'll text you tips throughout the day. Just don't check your phone when Marshall's watching."},
+    {speaker:'Narrator',scene:'office',text:"You turn. A large, silent man in a security uniform is already staring at you from across the floor.\nHe hasn't blinked once."},
+    {speaker:'Officer Marshall',scene:'office',text:"..."},
+    {speaker:'Narrator',scene:'office',text:"You look away first.\nEveryone does."},
+    {speaker:'Narrator',scene:'office',text:"Two cubicles over, someone hasn't looked up from their screen once during this entire exchange. Not when Wagner spoke. Not when Mark started yelling. Not once."},
+    {speaker:'Claire Laurent',scene:'office',text:"Laurent. Claire. Desk neighbors, apparently.",
+     choices:[
+       {label:"Nice to meet you.",effect:{rep:'claire',d:4},next:16},
+       {label:"(nod, say nothing)",effect:{rep:'claire',d:1},next:16}
+     ]},
+    {speaker:'Claire Laurent',scene:'office',text:"I don't do 'getting to know you' conversations during market hours. Check your inbox — I sent you something actually useful.\nWhich is more than Mark will ever do."},
+    {speaker:'Narrator',scene:'office',text:"The market opens in sixty seconds.\nSomewhere on this floor, someone just lost their job.\nToday is your first day.\nTry not to make it your last."}
+  ]}
 };
 
-// ══ VN CUTSCENE ENGINE ══
-// Orb colors per character — sets the ambient mood
-const charOrbs = {
-  'Richard Wagner':  ['#0a2a5c','#071830','#0a1e38'],
-  'Mark Rivera':     ['#2a1800','#1e1205','#2a1205'],
-  'Officer Marshall':['#111111','#0a0a0a','#151515'],
-  'Claire Laurent':  ['#1a0d2e','#0d0820','#150a24'],
-  'Narrator':        ['#0a0a0c','#0a0a0c','#0a0a0c']
-};
-const charColors = {
-  'Richard Wagner':'#4f9eff',
-  'Mark Rivera':'#f5a623',
-  'Officer Marshall':'#666666',
-  'Claire Laurent':'#c084fc',
-  'Narrator':'#4a4a60'
-};
-const charAv = {
-  'Richard Wagner':{cls:'av-wagner',in:'RW'},
-  'Mark Rivera':{cls:'av-mark',in:'MR'},
-  'Officer Marshall':{cls:'av-marshall',in:'OM'},
-  'Claire Laurent':{cls:'av-claire',in:'CL'}
-};
-
-const cutscenes = {
-  day1_opening:{
-    scenes:[
-      // ── SCENE 1: Narrator sets the stage ──
-      {speaker:'Narrator',text:"Monday. 8:57 AM.\nThe trading floor of Meridian Capital hums with the kind of energy that makes your chest tight.",bg:'office'},
-      {speaker:'Narrator',text:"You're three minutes early. That already puts you ahead of Mark.\nNot that the bar is particularly high."},
-      // ── SCENE 2: Wagner, the floor is loud ──
-      {speaker:'Richard Wagner',text:"Ah — there you are.",choices:null},
-      {speaker:'Richard Wagner',text:"I'd say 'make yourself at home,' but this is not your home. This is a trading floor. It eats the unprepared for breakfast and the overconfident for lunch."},
-      // ── TENSE CHOICE 1 ──
-      {speaker:'Richard Wagner',text:"I'll be honest with you. The VP of Investments was let go this morning. 'Unforeseen circumstances.' The floor is... unsettled. I need someone who can keep their head down and perform.",
-       choices:[
-         {label:"I can do that.",effect:{rep:'wagner',d:3},next:5},
-         {label:"What happened to the VP?",effect:{rep:'wagner',d:-2},next:5}
-       ]},
-      {speaker:'Richard Wagner',text:"Good. Ten thousand to start. By end of week — 10% return. That's the bar. Don't ask me to lower it.",choices:null},
-      // ── SCENE 3: The floor erupts ──
-      {speaker:'Narrator',text:"Before Wagner can finish, a voice cuts through the noise from three desks over."},
-      // ── MARK enters ──
-      {speaker:'Mark Rivera',text:"YO. New hire! Welcome to the circus, my friend. I'm Mark. Don't let Wagner scare you — he's basically a golden retriever in a suit."},
-      {speaker:'Mark Rivera',text:"Okay so here's the thing. ARIX is about to absolutely POP. I'm 80% in. You should get in before it moves. I'll walk you through everything.",
-       choices:[
-         {label:"80%? That seems... aggressive.",effect:{rep:'mark',d:2},next:9},
-         {label:"Tell me more.",effect:{rep:'mark',d:5},next:9}
-       ]},
-      {speaker:'Mark Rivera',text:"Aggressive is how you make money, my guy. Also — I'll text you tips throughout the day. Just don't check your phone when Marshall's watching."},
-      // ── MARSHALL ──
-      {speaker:'Narrator',text:"You turn. A large, silent man in a security uniform is already staring at you from across the floor. He hasn't blinked."},
-      {speaker:'Officer Marshall',text:"..."},
-      {speaker:'Narrator',text:"You look away first. Everyone does."},
-      // ── CLAIRE ──
-      {speaker:'Narrator',text:"Two cubicles over, someone hasn't looked up from their screen once during this entire exchange."},
-      {speaker:'Claire Laurent',text:"Laurent. Claire. We're apparently desk neighbors.",
-       choices:[
-         {label:"Nice to meet you.",effect:{rep:'claire',d:3},next:15},
-         {label:"...(say nothing, nod)",effect:{rep:'claire',d:1},next:15}
-       ]},
-      {speaker:'Claire Laurent',text:"I don't do 'getting to know you' conversations during market hours. Check your inbox — I sent you something actually useful. Which is more than Mark will ever do."},
-      // ── FINAL ──
-      {speaker:'Narrator',text:"The market opens in ninety seconds.\nSomewhere on this floor, someone just got fired.\nToday is your first day.\nTry not to make it your last."}
-    ]
-  }
-};
-
-let currentCutscene=null, csIdx=0, csTyping=false, csTypingTimer=null, csWaitingChoice=false;
-let marketInterval=null, newsInterval=null;
+let currentCutscene=null,csIdx=0,csTyping=false,csTypingTimer=null,csWaitingChoice=false;
+let marketInterval=null,newsInterval=null;
 
 function playCutscene(id){
-  const cs=cutscenes[id];
-  if(!cs) return;
-  currentCutscene=cs; csIdx=0; csWaitingChoice=false;
-  S.cutsceneActive=true;
-  const el=document.getElementById('cutscene');
-  el.style.display='flex';
+  const cs=cutscenes[id];if(!cs)return;
+  currentCutscene=cs;csIdx=0;csWaitingChoice=false;S.cutsceneActive=true;
+  document.getElementById('cutscene').style.display='flex';
   renderCsScene();
 }
-
 function renderCsScene(){
-  const scene=currentCutscene.scenes[csIdx];
-  const total=currentCutscene.scenes.length;
-  // progress dots
-  const prog=document.getElementById('cs-progress');
-  prog.innerHTML=currentCutscene.scenes.map((_,i)=>`<div class="cs-dot ${i<csIdx?'done':i===csIdx?'active':''}"></div>`).join('');
-  // ambient orbs
-  const orbs=charOrbs[scene.speaker]||charOrbs['Narrator'];
+  const sc=currentCutscene.scenes[csIdx];
+  // progress
+  document.getElementById('cs-progress').innerHTML=currentCutscene.scenes.map((_,i)=>`<div class="cs-dot ${i<csIdx?'done':i===csIdx?'active':''}"></div>`).join('');
+  // orbs
+  const orbs=charOrbs[sc.speaker]||charOrbs['Narrator'];
   document.getElementById('cs-orb1').style.background=orbs[0];
   document.getElementById('cs-orb2').style.background=orbs[1];
   document.getElementById('cs-orb3').style.background=orbs[2];
+  // scene label
+  const lbl=document.getElementById('cs-scene-label');
+  lbl.textContent=sceneLabels[sc.scene]||'';
   // portrait
   const portrait=document.getElementById('cs-portrait');
-  const narratorIcon=document.getElementById('cs-narrator-icon');
-  const av=charAv[scene.speaker];
+  const ni=document.getElementById('cs-narrator-icon');
+  const av=charAv[sc.speaker];
   if(av){
-    portrait.className='avatar '+av.cls;
-    portrait.textContent=av.in;
-    portrait.style.width='140px'; portrait.style.height='140px'; portrait.style.fontSize='44px';
-    portrait.classList.add('visible');
-    narratorIcon.style.opacity='0';
+    portrait.className='avatar '+av.cls;portrait.textContent=av.in;
+    portrait.style.width='130px';portrait.style.height='130px';portrait.style.fontSize='40px';
+    portrait.classList.add('visible');ni.style.opacity='0';
   } else {
-    portrait.className='avatar'; portrait.textContent='';
-    portrait.classList.remove('visible');
-    narratorIcon.style.opacity='0.25';
+    portrait.className='avatar';portrait.textContent='';
+    portrait.classList.remove('visible');ni.style.opacity='0.15';
   }
-  // speaker name
+  // speaker
   const spEl=document.getElementById('cs-speaker');
-  spEl.textContent=scene.speaker==='Narrator'?'— Narrator —':scene.speaker;
-  spEl.style.color=charColors[scene.speaker]||'var(--text3)';
-  // choices
-  const choicesEl=document.getElementById('cs-choices');
-  choicesEl.innerHTML='';
+  spEl.textContent=sc.speaker==='Narrator'?'— narrator —':sc.speaker;
+  spEl.style.color=charColors[sc.speaker]||'var(--text3)';
+  // reset choices
+  document.getElementById('cs-choices').innerHTML='';
   csWaitingChoice=false;
-  // tap hint
   document.getElementById('cs-tap-hint').style.display='block';
-  // typewriter
-  typewriteCs(scene.text, ()=>{
-    if(scene.choices&&scene.choices.length){
+  // typewrite
+  typewriteCs(sc.text,()=>{
+    if(sc.choices&&sc.choices.length){
       csWaitingChoice=true;
       document.getElementById('cs-tap-hint').style.display='none';
-      choicesEl.innerHTML=scene.choices.map((c,i)=>
-        `<button class="cs-choice${i===scene.choices.length-1?' highlight':''}" onclick="csMakeChoice(${i})">${c.label}</button>`
+      document.getElementById('cs-choices').innerHTML=sc.choices.map((c,i)=>
+        `<button class="cs-choice${i===sc.choices.length-1?' highlight':''}" onclick="csMakeChoice(${i})">${c.label}</button>`
       ).join('');
     }
   });
 }
-
-function typewriteCs(text, onDone){
-  const el=document.getElementById('cs-text');
-  el.textContent=''; csTyping=true;
-  let i=0;
+function typewriteCs(text,onDone){
+  const el=document.getElementById('cs-text');el.textContent='';csTyping=true;let i=0;
   clearInterval(csTypingTimer);
   csTypingTimer=setInterval(()=>{
-    if(i<text.length){ el.textContent+=text[i]; i++; }
-    else { clearInterval(csTypingTimer); csTyping=false; if(onDone) onDone(); }
-  },26);
+    if(i<text.length){el.textContent+=text[i];i++;}
+    else{clearInterval(csTypingTimer);csTyping=false;if(onDone)onDone();}
+  },24);
 }
-
 function csMakeChoice(idx){
-  const scene=currentCutscene.scenes[csIdx];
-  if(!scene.choices) return;
-  const choice=scene.choices[idx];
-  if(choice.effect) adjustRep(choice.effect.rep, choice.effect.d);
-  const nextIdx=choice.next!==undefined?choice.next:csIdx+1;
-  csIdx=nextIdx; csWaitingChoice=false;
-  if(csIdx>=currentCutscene.scenes.length){ endCutscene(); return; }
+  const sc=currentCutscene.scenes[csIdx];if(!sc.choices)return;
+  const c=sc.choices[idx];
+  if(c.effect)adjustRep(c.effect.rep,c.effect.d);
+  csIdx=c.next!==undefined?c.next:csIdx+1;
+  csWaitingChoice=false;
+  if(csIdx>=currentCutscene.scenes.length){endCutscene();return;}
   renderCsScene();
 }
-
 function advanceCutscene(){
-  if(!S.cutsceneActive) return;
-  if(csWaitingChoice) return; // must pick a choice
+  if(!S.cutsceneActive)return;
+  if(csWaitingChoice)return;
   if(csTyping){
-    // skip typewriter
-    clearInterval(csTypingTimer); csTyping=false;
-    const scene=currentCutscene.scenes[csIdx];
-    document.getElementById('cs-text').textContent=scene.text;
-    if(scene.choices&&scene.choices.length){
+    clearInterval(csTypingTimer);csTyping=false;
+    const sc=currentCutscene.scenes[csIdx];
+    document.getElementById('cs-text').textContent=sc.text;
+    if(sc.choices&&sc.choices.length){
       csWaitingChoice=true;
       document.getElementById('cs-tap-hint').style.display='none';
-      document.getElementById('cs-choices').innerHTML=scene.choices.map((c,i)=>
-        `<button class="cs-choice${i===scene.choices.length-1?' highlight':''}" onclick="csMakeChoice(${i})">${c.label}</button>`
+      document.getElementById('cs-choices').innerHTML=sc.choices.map((c,i)=>
+        `<button class="cs-choice${i===sc.choices.length-1?' highlight':''}" onclick="csMakeChoice(${i})">${c.label}</button>`
       ).join('');
     }
     return;
   }
   csIdx++;
-  if(csIdx>=currentCutscene.scenes.length){ endCutscene(); return; }
+  if(csIdx>=currentCutscene.scenes.length){endCutscene();return;}
   renderCsScene();
 }
-
 function endCutscene(){
-  S.cutsceneActive=false;
-  currentCutscene=null;
+  S.cutsceneActive=false;currentCutscene=null;
   document.getElementById('cutscene').style.display='none';
-  // deliver first story beat after cutscene
-  showStory(0);
+  // after cutscene: Mark texts you first, then presets unlock
+  setTimeout(()=>{
+    receiveMsg('mark',"yo that was a LOT for a first day lmao. you good?");
+  },2000);
+  setTimeout(()=>showStory(0),800);
 }
-
-// tap anywhere on cutscene bg to advance (not on choice buttons)
-document.getElementById('cutscene').addEventListener('click', function(e){
-  if(e.target.classList.contains('cs-choice')) return;
+document.getElementById('cutscene').addEventListener('click',function(e){
+  if(e.target.classList.contains('cs-choice'))return;
   advanceCutscene();
 });
 
-// ══ STORY BEATS (post-cutscene) ══
-const storyScript = [
+// ══ STORY BEATS ══
+const storyScript=[
   {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
    text:"One more thing. The VP position is open. I'm not filling it today. But I'm watching everyone on this floor. Including you.",
    choices:[{l:"Understood.",n:1},{l:"I'll keep that in mind.",n:1}]},
   {sp:'Mark Rivera',role:'Junior Trader',av:'av-mark',in:'MR',
-   text:"Okay so real talk — Wagner's distracted with the VP thing. That means less oversight. Which means... opportunity. I'll show you the ropes. First rule: always look busy.",
-   choices:[{l:"What's the second rule?",n:2},{l:"That's... one way to look at it.",n:2}]},
+   text:"Okay real talk — Wagner's distracted with the VP thing. Less oversight. Which means opportunity. First rule: always look busy when Marshall walks by.",
+   choices:[{l:"What's the second rule?",n:2},{l:"That's one way to look at it.",n:2}]},
   {sp:'Mark Rivera',role:'Junior Trader',av:'av-mark',in:'MR',
-   text:"Second rule: ARIX. Always ARIX. Third rule: if Marshall looks at you, put the phone down immediately. Okay, market's open. Let's get it.",
+   text:"Second rule: ARIX. Always ARIX. Third rule: if Marshall looks at you, phone goes away immediately. Market's open. Let's get it.",
    choices:[{l:"Let's go.",n:-1}]}
 ];
 
@@ -960,21 +957,16 @@ function clockStr(){const h=S.hour,m=S.minute;return `${h>12?h-12:h===0?12:h}:${
 function dayLabel(){return ['Mon','Tue','Wed','Thu','Fri'][(S.day-1)%5]||'Mon';}
 function portfolioValue(){let v=S.cash;Object.keys(S.holdings).forEach(t=>{const s=stocks.find(x=>x.ticker===t);v+=s.price*S.holdings[t];});return v;}
 
-// ══ TOPBAR ══
 function updateRentTicker(){
   const el=document.getElementById('rent-ticker');
-  if(S.rentPaid){el.textContent='✓ Rent paid';el.style.color='var(--green)';el.style.borderColor='var(--green-dim)';el.style.background='var(--green-bg)';return;}
-  if(S.rentDue){el.textContent='⚠ RENT DUE: $1,200';el.style.color='var(--red)';el.style.borderColor='var(--red-dim)';el.style.background='var(--red-bg)';return;}
-  el.textContent='Rent: Friday';
+  if(S.rentPaid){el.textContent='Rent paid';el.style.color='var(--green)';el.style.borderColor='var(--green-dim)';el.style.background='var(--green-bg)';return;}
+  if(S.rentDue){el.textContent='RENT DUE';el.style.color='var(--red)';el.style.borderColor='var(--red-dim)';el.style.background='var(--red-bg)';return;}
+  el.textContent='Rent: Fri';el.style.color='';el.style.borderColor='';el.style.background='';
 }
 function updateTopBar(){
   document.getElementById('cash-disp').textContent=fm(S.cash);
   let pv=0,cv=0;
-  Object.keys(S.holdings).forEach(t=>{
-    const stk=stocks.find(s=>s.ticker===t);
-    pv+=stk.price*S.holdings[t]; cv+=(S.costBasis[t]||stk.price)*S.holdings[t];
-  });
-  document.getElementById('port-disp').textContent=fm(pv);
+  Object.keys(S.holdings).forEach(t=>{const stk=stocks.find(s=>s.ticker===t);pv+=stk.price*S.holdings[t];cv+=(S.costBasis[t]||stk.price)*S.holdings[t];});
   const pnl=pv-cv;
   const pnlEl=document.getElementById('pnl-disp');
   pnlEl.textContent=(pnl>=0?'+':'')+fm(pnl);
@@ -984,40 +976,32 @@ function updateTopBar(){
   const ret=cv>0?((pv-cv)/cv*100).toFixed(1):null;
   const srEl=document.getElementById('s-return');
   srEl.textContent=ret!==null?(ret>=0?'+':'')+ret+'%':'—';
-  if(ret!==null) srEl.style.color=ret>0?'var(--green)':ret<0?'var(--red)':'';
+  if(ret!==null)srEl.style.color=ret>0?'var(--green)':ret<0?'var(--red)':'';
   document.getElementById('clock').textContent=`${dayLabel()} ${clockStr()}`;
   document.getElementById('day-indicator').textContent=`DAY ${S.day} · ACT ${S.act}`;
   updateRentTicker();
 }
 function adjustRep(who,delta){
   S.rep[who]=Math.max(0,Math.min(100,S.rep[who]+delta));
-  const el=document.getElementById('rep-'+who);
-  if(el) el.style.width=S.rep[who]+'%';
+  const el=document.getElementById('rep-'+who);if(el)el.style.width=S.rep[who]+'%';
 }
-
-// ══ SPARKLINE ══
 function sparkline(history,up){
-  const w=70,h=26,pad=2;
-  const sl=history.slice(-15);
+  const w=60,h=24,pad=2,sl=history.slice(-15);
   const mn=Math.min(...sl)-0.5,mx=Math.max(...sl)+0.5;
   const pts=sl.map((v,i)=>`${pad+i*(w-2*pad)/(sl.length-1)},${h-pad-(v-mn)/(mx-mn)*(h-2*pad)}`).join(' ');
-  const c=up?'#3dd68c':'#f06b6b';
-  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><polyline points="${pts}" stroke="${c}" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><polyline points="${pts}" stroke="${up?'#3dd68c':'#f06b6b'}" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 }
 
-// ══ RENDER ══
 function renderStocks(){
   const el=document.getElementById('stocks-list');
   el.innerHTML=stocks.map(s=>{
-    const open=s.history[0],ch=((s.price-open)/open*100).toFixed(2),up=s.price>=open;
-    const held=S.holdings[s.ticker]||0;
-    const color=up?'var(--green)':'var(--red)';
+    const open=s.history[0],ch=((s.price-open)/open*100).toFixed(2),up=s.price>=open,held=S.holdings[s.ticker]||0;
     return `<div class="stock-row">
       <div class="stock-ticker">${s.ticker}${held>0?`<span class="holding-pill">${held}</span>`:''}</div>
       <div class="stock-info"><div class="stock-name">${s.name}</div><div class="stock-desc">${s.desc}</div></div>
       <div class="stock-chart-wrap">${sparkline(s.history,up)}</div>
-      <div class="stock-price" style="color:${color}">${fm(s.price)}</div>
-      <div class="stock-change" style="color:${color}">${up?'+':''}${ch}%</div>
+      <div class="stock-price" style="color:${up?'var(--green)':'var(--red)'}">${fm(s.price)}</div>
+      <div class="stock-change" style="color:${up?'var(--green)':'var(--red)'}">${up?'+':''}${ch}%</div>
       <div class="stock-actions">
         <button class="btn-buy" onclick="initTrade('buy','${s.ticker}')">Buy</button>
         ${held>0?`<button class="btn-sell" onclick="initTrade('sell','${s.ticker}')">Sell</button>`:''}
@@ -1033,10 +1017,10 @@ function renderHoldings(){
     const s=stocks.find(x=>x.ticker===t),qty=S.holdings[t],cost=S.costBasis[t]||s.price;
     const val=s.price*qty,pl=(s.price-cost)*qty,plp=((s.price-cost)/cost*100).toFixed(1),up=pl>=0;
     return `<div class="holding-row">
-      <div style="font-size:12px;font-weight:600;width:46px;font-family:var(--mono);">${t}</div>
-      <div style="flex:1"><div style="font-size:12px;color:var(--text2);">${s.name}</div><div style="font-size:10px;color:var(--text3);">${qty} shares @ ${fm(cost)}</div></div>
+      <div style="font-size:11px;font-weight:600;width:42px;font-family:var(--mono);">${t}</div>
+      <div style="flex:1"><div style="font-size:12px;color:var(--text2);">${s.name}</div><div style="font-size:10px;color:var(--text3);">${qty} @ ${fm(cost)}</div></div>
       <div style="text-align:right">
-        <div style="font-size:13px;font-weight:500;color:${up?'var(--green)':'var(--red)'};font-family:var(--mono);">${fm(val)}</div>
+        <div style="font-size:12px;font-weight:500;color:${up?'var(--green)':'var(--red)'};font-family:var(--mono);">${fm(val)}</div>
         <div style="font-size:10px;color:${up?'var(--green)':'var(--red)'};font-family:var(--mono);">${up?'+':''}${fm(pl)} (${plp}%)</div>
       </div>
       <button class="btn-sell" onclick="initTrade('sell','${t}')">Sell</button>
@@ -1048,11 +1032,7 @@ function renderNews(){
   if(!S.newsEvents.length){el.innerHTML='<div style="padding:20px 0;color:var(--text3);font-size:13px;">No news yet.</div>';return;}
   el.innerHTML=S.newsEvents.map(n=>`<div class="news-item">
     <div class="news-headline">${n.h}</div>
-    <div class="news-meta">
-      <span>${n.time}</span>
-      ${n.t?`<span style="font-weight:600;color:var(--text2);">${n.t}</span>`:''}
-      <span class="impact-pill ${n.tone==='up'?'impact-up':n.tone==='down'?'impact-down':'impact-neutral'}">${n.tone==='up'?'Bullish':n.tone==='down'?'Bearish':'Watch'}</span>
-    </div>
+    <div class="news-meta"><span>${n.time}</span>${n.t?`<span style="font-weight:600;color:var(--text2);">${n.t}</span>`:''}<span class="impact-pill ${n.tone==='up'?'impact-up':n.tone==='down'?'impact-down':'impact-neutral'}">${n.tone==='up'?'Bullish':n.tone==='down'?'Bearish':'Watch'}</span></div>
   </div>`).join('');
 }
 function renderEmails(){
@@ -1075,68 +1055,47 @@ function renderEmails(){
     </div>`;
   }).join('');
   const u=emails.filter(e=>!S.emailsRead.has(e.id)).length;
-  const b=document.getElementById('email-badge');
-  b.textContent=u; b.style.display=u?'':'none';
-  const countEl=document.getElementById('email-count');
-  if(countEl) countEl.textContent=u?`${u} unread`:'All read';
+  ['email-badge','email-badge-m'].forEach(id=>{const b=document.getElementById(id);if(b){b.textContent=u;b.style.display=u?'':'none';}});
+  const c=document.getElementById('email-count');if(c)c.textContent=u?`${u} unread`:'All read';
 }
 function renderConvos(){
   const el=document.getElementById('convo-list');
-  const contacts=[
-    {id:'mark',name:'Mark Rivera',av:'av-mark',in:'MR'},
-    {id:'claire',name:'Claire Laurent',av:'av-claire',in:'CL'}
-  ];
+  const contacts=[{id:'mark',name:'Mark Rivera',av:'av-mark',in:'MR'},{id:'claire',name:'Claire Laurent',av:'av-claire',in:'CL'}];
   el.innerHTML=contacts.map(c=>{
     const last=S.phoneThreads[c.id].slice(-1)[0];
     return `<div class="email-item ${S.phoneUnread[c.id]>0?'email-unread':''}" onclick="openPhone('${c.id}')" style="padding:12px 0;">
       <div style="display:flex;align-items:center;gap:10px;">
         ${S.phoneUnread[c.id]>0?'<div class="unread-dot"></div>':'<div style="width:6px;"></div>'}
         <div class="avatar ${c.av}" style="width:32px;height:32px;font-size:11px;flex-shrink:0;">${c.in}</div>
-        <div style="flex:1;min-width:0;">
-          <div class="email-from">${c.name}</div>
-          <div class="email-subject">${last?last.text:'No messages yet'}</div>
-        </div>
+        <div style="flex:1;min-width:0;"><div class="email-from">${c.name}</div><div class="email-subject">${last?last.text:'No messages yet'}</div></div>
         ${S.phoneUnread[c.id]>0?`<span class="badge">${S.phoneUnread[c.id]}</span>`:''}
       </div>
     </div>`;
   }).join('');
 }
-
-// ══ EMAIL ══
 function openEmail(id){
-  S.emailsRead.add(id);
-  const e=emails.find(x=>x.id===id);
-  if(!e) return;
+  S.emailsRead.add(id);const e=emails.find(x=>x.id===id);if(!e)return;
   document.getElementById('email-detail-subject').textContent=e.subj;
   document.getElementById('email-detail-meta').innerHTML=`<span style="color:var(--text2);">From: ${e.full}</span><span>${e.role}</span><span>${e.time}</span>`;
   document.getElementById('email-detail-body').textContent=e.body;
   document.getElementById('email-detail').style.display='flex';
-  renderEmails();
-  if(e.av==='av-claire') adjustRep('claire',3);
+  renderEmails();if(e.av==='av-claire')adjustRep('claire',3);
 }
-function addEmail(e){
-  emails.unshift(e);
-  renderEmails();
-  pushNotif(e.from,e.subj,e.av,e.in);
-}
-
-// ══ NEWS ══
+function addEmail(e){emails.unshift(e);renderEmails();pushNotif(e.from,e.subj,e.av,e.in);}
 function addNewsEvent(n){
   if(n.t){const s=stocks.find(x=>x.ticker===n.t);if(s){s.price*=(1+n.i);s.history.push(s.price);}}
   else stocks.forEach(s=>{s.price*=(1+n.i*0.5);s.history.push(s.price);});
-  S.newsEvents.unshift({...n,time:clockStr()});
-  if(S.newsEvents.length>20) S.newsEvents.pop();
+  S.newsEvents.unshift({...n,time:clockStr()});if(S.newsEvents.length>20)S.newsEvents.pop();
   pushNotif('Market News',n.h,'av-system','MC');
-  if(document.getElementById('view-news').style.display!=='none') renderNews();
-  updateTopBar(); renderStocks();
+  if(document.getElementById('view-news').style.display!=='none')renderNews();
+  updateTopBar();renderStocks();
 }
 function fireRandomNews(){
   const unused=newsPool.filter(n=>!S.newsEvents.find(e=>e.h===n.h));
-  if(!unused.length) return;
-  addNewsEvent(unused[Math.floor(Math.random()*unused.length)]);
+  if(!unused.length)return;addNewsEvent(unused[Math.floor(Math.random()*unused.length)]);
 }
 
-// ══ PHONE ══
+// ══ PHONE — NPC texts first, presets unlock after ══
 function openPhone(contact){
   if(S.marshallPatrolActive){triggerMarshallCatch();return;}
   S.phoneOpenCount++;
@@ -1144,36 +1103,39 @@ function openPhone(contact){
   const names={mark:'Mark Rivera',claire:'Claire Laurent'};
   const avs={mark:'av-mark',claire:'av-claire'};
   const inits={mark:'MR',claire:'CL'};
-  S.phoneContact=contact;
-  S.phoneUnread[contact]=0;
+  S.phoneContact=contact;S.phoneUnread[contact]=0;
   document.getElementById('phone-name').textContent=names[contact];
   const av=document.getElementById('phone-av');
-  av.className='avatar '+avs[contact]; av.textContent=inits[contact];
-  av.style.width='30px'; av.style.height='30px'; av.style.fontSize='10px';
-  const msgs=document.getElementById('phone-msgs');
-  msgs.innerHTML='';
+  av.className='avatar '+avs[contact];av.textContent=inits[contact];
+  av.style.width='30px';av.style.height='30px';av.style.fontSize='10px';
+  const msgs=document.getElementById('phone-msgs');msgs.innerHTML='';
   S.phoneThreads[contact].forEach(m=>appendBubble(m.text,m.from==='me'));
-  if(!S.phoneThreads[contact].length){
-    const opener=contact==='mark'?markLines[Math.floor(Math.random()*4)]:"Laurent. What is it?";
-    setTimeout(()=>receiveMsg(contact,opener),600);
-  }
+  // presets only visible if NPC has spoken
+  const hasNpcMsg=S.phoneThreads[contact].some(m=>m.from===contact);
+  const presetsEl=document.getElementById('phone-presets');
+  if(hasNpcMsg){presetsEl.classList.add('visible');renderPresets(contact);}
+  else{presetsEl.classList.remove('visible');}
   msgs.scrollTop=9999;
-  renderPresets(contact);
   document.getElementById('phone-overlay').style.display='flex';
-  if(contact==='claire'&&S.rep.claire<40) adjustRep('claire',2);
+  if(contact==='claire'&&S.rep.claire<40)adjustRep('claire',2);
   updatePhoneBadge();
 }
-function closePhone(){document.getElementById('phone-overlay').style.display='none';S.phoneContact=null;if(document.getElementById('view-phone').style.display!=='none') renderConvos();}
+function closePhone(){
+  document.getElementById('phone-overlay').style.display='none';S.phoneContact=null;
+  if(document.getElementById('view-phone').style.display!=='none')renderConvos();
+}
 function appendBubble(text,isMe){
   const msgs=document.getElementById('phone-msgs');
-  const b=document.createElement('div');
-  b.className='msg-bubble '+(isMe?'msg-me':'msg-them');
-  b.textContent=text; msgs.appendChild(b); msgs.scrollTop=9999;
+  const b=document.createElement('div');b.className='msg-bubble '+(isMe?'msg-me':'msg-them');
+  b.textContent=text;msgs.appendChild(b);msgs.scrollTop=9999;
 }
 function receiveMsg(contact,text){
   S.phoneThreads[contact].push({from:contact,text});
   if(S.phoneContact===contact&&document.getElementById('phone-overlay').style.display!=='none'){
     appendBubble(text,false);
+    // unlock presets after first NPC message
+    const presetsEl=document.getElementById('phone-presets');
+    presetsEl.classList.add('visible');renderPresets(contact);
   } else {
     S.phoneUnread[contact]=(S.phoneUnread[contact]||0)+1;
     updatePhoneBadge();
@@ -1182,39 +1144,67 @@ function receiveMsg(contact,text){
 }
 function updatePhoneBadge(){
   const total=(S.phoneUnread.mark||0)+(S.phoneUnread.claire||0);
-  const b=document.getElementById('phone-badge');
-  b.textContent=total; b.style.display=total?'':'none';
+  ['phone-badge','phone-badge-s'].forEach(id=>{const b=document.getElementById(id);if(b){b.textContent=total;b.style.display=total?'':'none';}});
 }
 function renderPresets(contact){
   const chips=document.getElementById('preset-chips');
-  let pool;
-  if(contact==='mark'){
-    const pv=portfolioValue();
-    pool=pv<9700?presets.mark.afterLoss:pv>10500?presets.mark.afterWin:presets.mark.default;
-  } else {
-    pool=S.rep.claire>=60?presets.claire.close:S.rep.claire>=40?presets.claire.warm:presets.claire.cold;
+  const st=phoneState[contact];
+  const tree=contact==='mark'?markTree:claireTree;
+  const pool=contact==='mark'?markPoolReplies:clairePoolReplies;
+  let node=st.node==='pool'?null:tree[st.node];
+  // if node is exhausted or null, use pool
+  if(!node||!node.replies){
+    const pi=st.poolIdx%pool.length;
+    const poolNode=pool[pi];
+    chips.innerHTML=poolNode.replies.map((r,i)=>`<div class="preset-chip" onclick="sendPreset(${i},'pool')">${r.label}</div>`).join('');
+    chips._pool=poolNode.replies;chips._poolIdx=pi;
+    return;
   }
-  chips.innerHTML=pool.map((p,i)=>`<div class="preset-chip" onclick="sendPreset(${i})">${p.label}</div>`).join('');
-  chips._pool=pool;
+  chips.innerHTML=node.replies.map((r,i)=>`<div class="preset-chip" onclick="sendPreset(${i},'tree')">${r.label}</div>`).join('');
+  chips._pool=node.replies;chips._mode='tree';
 }
-function sendPreset(idx){
-  const contact=S.phoneContact; if(!contact) return;
-  const pool=document.getElementById('preset-chips')._pool;
-  const preset=pool[idx]; if(!preset) return;
+function sendPreset(idx,mode){
+  const contact=S.phoneContact;if(!contact)return;
+  const chips=document.getElementById('preset-chips');
+  const pool=chips._pool;const preset=pool[idx];if(!preset)return;
   S.phoneThreads[contact].push({from:'me',text:preset.label});
   appendBubble(preset.label,true);
-  if(preset.rep) adjustRep(contact,preset.rep);
+  if(preset.rep)adjustRep(contact,preset.rep);
+  const st=phoneState[contact];
+  const tree=contact==='mark'?markTree:claireTree;
+  const poolArr=contact==='mark'?markPoolReplies:clairePoolReplies;
   setTimeout(()=>{
-    const reply=typeof preset.reply==='function'?preset.reply():preset.reply;
-    receiveMsg(contact,reply);
-    renderPresets(contact);
+    if(mode==='tree'){
+      const node=tree[st.node];
+      if(preset.next===null){
+        // move to pool
+        st.node='pool';
+        const pi=st.poolIdx%poolArr.length;
+        receiveMsg(contact,poolArr[pi].npc);
+        st.poolIdx++;
+      } else if(preset.next&&tree[preset.next]){
+        st.node=preset.next;
+        receiveMsg(contact,tree[preset.next].npc);
+      } else {
+        st.node='pool';
+        const pi=st.poolIdx%poolArr.length;
+        receiveMsg(contact,poolArr[pi].npc);
+        st.poolIdx++;
+      }
+    } else {
+      // pool mode — cycle
+      const pi=(chips._poolIdx+1)%poolArr.length;
+      receiveMsg(contact,poolArr[pi].npc);
+      st.poolIdx=pi+1;
+    }
   },900+Math.random()*600);
 }
 
 // ══ TRADE ══
+let tradeAction=null,tradeTicker=null;
 function initTrade(action,ticker){
   const s=stocks.find(x=>x.ticker===ticker);
-  tradeAction=action; tradeTicker=ticker;
+  tradeAction=action;tradeTicker=ticker;
   const maxQ=action==='buy'?Math.floor(S.cash/s.price):S.holdings[ticker]||0;
   const defQ=action==='buy'?Math.max(1,Math.floor(maxQ/3)):maxQ;
   document.getElementById('trade-title').textContent=(action==='buy'?'Buy ':'Sell ')+ticker;
@@ -1225,18 +1215,17 @@ function initTrade(action,ticker){
     <div style="height:1px;background:var(--border);margin:8px 0;"></div>
     <div class="trade-row"><span style="font-weight:500;">Total</span><span id="ttotal" style="font-size:15px;font-weight:600;">${fm(defQ*s.price)}</span></div>
     ${action==='buy'?`<div style="font-size:11px;color:var(--text3);margin-top:8px;font-family:var(--mono);">Available: ${fm(S.cash)}</div>`:''}
-    ${S.rentDue&&!S.rentPaid&&action==='buy'?`<div style="font-size:11px;color:var(--amber);margin-top:6px;">⚠ Rent of $1,200 still due today</div>`:''}
+    ${S.rentDue&&!S.rentPaid&&action==='buy'?`<div style="font-size:11px;color:var(--amber);margin-top:6px;">Rent of $1,200 still due today</div>`:''}
   `;
   document.getElementById('tqty').oninput=function(){document.getElementById('ttotal').textContent=fm((parseInt(this.value)||1)*s.price);};
   document.getElementById('trade-overlay').style.display='flex';
 }
-let tradeAction=null,tradeTicker=null;
 function executeTrade(){
   const s=stocks.find(x=>x.ticker===tradeTicker);
   const qty=parseInt(document.getElementById('tqty').value)||1;
   if(tradeAction==='buy'){
     const cost=qty*s.price;
-    if(cost>S.cash){pushNotif('Insufficient funds','Not enough cash for this trade.','av-system','!');return;}
+    if(cost>S.cash){pushNotif('Insufficient funds','Not enough cash.','av-system','!');return;}
     S.cash-=cost;
     const prev=S.holdings[tradeTicker]||0,prevCost=S.costBasis[tradeTicker]||s.price;
     S.holdings[tradeTicker]=(prev+qty);
@@ -1247,49 +1236,42 @@ function executeTrade(){
   } else {
     const held=S.holdings[tradeTicker]||0;
     if(qty>held){pushNotif('Error',"You don't have that many shares.",'av-system','!');return;}
-    S.cash+=qty*s.price;
-    S.holdings[tradeTicker]-=qty;
+    S.cash+=qty*s.price;S.holdings[tradeTicker]-=qty;
     if(!S.holdings[tradeTicker]){delete S.holdings[tradeTicker];delete S.costBasis[tradeTicker];}
     pushNotif('Sold',`${qty} ${tradeTicker} @ ${fm(s.price)}`,'av-system','✓');
     adjustRep('wagner',2);
   }
   document.getElementById('trade-overlay').style.display='none';
-  updateTopBar(); renderStocks();
-  saveGame();
+  updateTopBar();renderStocks();saveGame();
 }
 
 // ══ MARSHALL ══
 let marshallTimer=null;
-function scheduleMarshall(){
-  const delay=180000+Math.random()*300000;
-  marshallTimer=setTimeout(startMarshallPatrol,delay);
-}
+function scheduleMarshall(){marshallTimer=setTimeout(startMarshallPatrol,180000+Math.random()*300000);}
 function startMarshallPatrol(){
   S.marshallPatrolActive=true;
-  if(S.rep.claire>=40) receiveMsg('claire',"Put it away. He's doing a lap. 👀");
-  if(document.getElementById('phone-overlay').style.display!=='none') triggerMarshallCatch();
+  if(S.rep.claire>=40)receiveMsg('claire',"Put it away. He's doing a lap. 👀");
+  if(document.getElementById('phone-overlay').style.display!=='none')triggerMarshallCatch();
   setTimeout(endMarshallPatrol,15000+Math.random()*10000);
 }
 function endMarshallPatrol(){S.marshallPatrolActive=false;scheduleMarshall();}
 function triggerMarshallCatch(){
-  S.warnedPhone=true; S.phoneOpenCount=0; closePhone();
-  S.marshallViolations++;
-  const el=document.createElement('div'); el.id='marshall-bar';
+  S.warnedPhone=true;S.phoneOpenCount=0;closePhone();S.marshallViolations++;
+  const el=document.createElement('div');el.id='marshall-bar';
   el.innerHTML=`<span>🚨</span><div><strong>Officer Marshall</strong> — "Put the phone away. Floor policy. Now."</div><span style="cursor:pointer;margin-left:auto;font-size:20px;" onclick="this.parentElement.remove()">×</span>`;
   document.body.appendChild(el);
   setTimeout(()=>{if(el.parentNode)el.remove();S.warnedPhone=false;},5000);
   adjustRep('wagner',-8);
-  if(S.marshallViolations===2) setTimeout(()=>addEmail({id:40,from:'Meridian HR',full:'Meridian Capital HR',role:'Human Resources',av:'av-hr',in:'HR',time:clockStr(),subj:'Floor Policy Warning',body:`This is a formal notice.\n\nYou have been observed using a personal device on the trading floor in violation of company policy.\n\nA second violation will result in escalation to your direct manager.\n\nHR Team`}),3000);
+  if(S.marshallViolations===2)setTimeout(()=>addEmail({id:40,from:'Meridian HR',full:'Meridian Capital HR',role:'Human Resources',av:'av-hr',in:'HR',time:clockStr(),subj:'Floor Policy Warning',body:`This is a formal notice.\n\nYou have been observed using a personal device on the trading floor in violation of company policy.\n\nA second violation will result in escalation to your direct manager.\n\nHR Team`}),3000);
   if(S.marshallViolations===3&&!S.wagneredPhone){S.wagneredPhone=true;setTimeout(()=>addEmail({id:41,from:'R. Wagner',full:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',time:clockStr(),subj:'A word.',body:`I heard Marshall had to say something to you.\n\nI don't micromanage. But distracted traders make expensive mistakes. And expensive mistakes have a way of ending careers.\n\nLet's not make this a pattern.\n\n— Wagner`}),5000);}
 }
 
 // ══ NOTIFICATIONS ══
 function pushNotif(title,msg,avClass,avInitials){
   const area=document.getElementById('notif-area');
-  const el=document.createElement('div'); el.className='notif';
+  const el=document.createElement('div');el.className='notif';
   el.innerHTML=`<div class="notif-header"><div class="avatar ${avClass}" style="width:22px;height:22px;font-size:9px;flex-shrink:0;">${avInitials}</div><div class="notif-sender">${title}</div><span class="notif-close" onclick="this.closest('.notif').remove()">×</span></div><div class="notif-msg">${msg}</div>`;
-  area.appendChild(el);
-  setTimeout(()=>{if(el.parentNode)el.remove();},5000);
+  area.appendChild(el);setTimeout(()=>{if(el.parentNode)el.remove();},5000);
 }
 
 // ══ STORY ══
@@ -1299,8 +1281,7 @@ function showStory(idx){
   if(!sc){document.getElementById('story-overlay').style.display='none';S.storyActive=false;return;}
   S.storyActive=true;
   const av=document.getElementById('story-avatar');
-  av.className='avatar '+sc.av; av.textContent=sc.in;
-  av.style.width='38px'; av.style.height='38px'; av.style.fontSize='12px';
+  av.className='avatar '+sc.av;av.textContent=sc.in;av.style.width='38px';av.style.height='38px';av.style.fontSize='12px';
   document.getElementById('story-name').textContent=sc.sp;
   document.getElementById('story-role').textContent=sc.role;
   document.getElementById('story-text').textContent=sc.text;
@@ -1314,78 +1295,71 @@ function showStory(idx){
 function showView(v){
   document.querySelectorAll('.view').forEach(el=>el.style.display='none');
   document.getElementById('view-'+v).style.display='flex';
+  // sidebar nav
   document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
-  const map={market:0,portfolio:1,news:2,email:3,phone:4};
-  const idx=map[v];
-  if(idx!==undefined) document.querySelectorAll('.nav-item')[idx].classList.add('active');
-  if(v==='portfolio') renderHoldings();
-  if(v==='news') renderNews();
-  if(v==='email') renderEmails();
-  if(v==='phone') renderConvos();
+  const smap={market:0,portfolio:1,news:2,email:3,phone:4};
+  const si=smap[v];if(si!==undefined){const items=document.querySelectorAll('.nav-item');if(items[si])items[si].classList.add('active');}
+  // bottom nav
+  document.querySelectorAll('.bnav-item').forEach(el=>el.classList.remove('active'));
+  const bmap={market:'bn-market',portfolio:'bn-portfolio',news:'bn-news',email:'bn-email',phone:'bn-phone'};
+  const bi=document.getElementById(bmap[v]);if(bi)bi.classList.add('active');
+  if(v==='portfolio')renderHoldings();
+  if(v==='news')renderNews();
+  if(v==='email')renderEmails();
+  if(v==='phone')renderConvos();
 }
 
 // ══ DAY EVENTS ══
 const dayEvents={
   2:()=>{addEmail({id:20,from:'R. Wagner',full:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',time:clockStr(),subj:'Checking in',body:`Tuesday already.\n\nI've been watching your portfolio. You're making moves, which is good. Whether they're the right moves remains to be seen.\n\nRemember: 10%. I don't move that bar.\n\n— Wagner`});},
-  3:()=>{stocks.forEach(s=>{if(s.ticker!=='VLRT') s.price*=1.04+Math.random()*0.02;});addNewsEvent({h:'Mid-week rally: broad market surge on positive jobs data',t:null,i:0.04,tone:'up'});addEmail({id:21,from:'C. Laurent',full:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',time:clockStr(),subj:'Wednesday note',body:`The Wednesday rally is happening again.\n\nDon't get greedy. Wednesday goes up, Thursday pulls back. New traders always buy the top.\n\nYou've been doing okay. Don't ruin it now.\n\n— CL`});adjustRep('claire',5);},
-  4:()=>{stocks.forEach(s=>{if(s.ticker!=='VLRT') s.price*=0.96-Math.random()*0.015;});addNewsEvent({h:"Thursday pullback: traders take profits after Wednesday's gains",t:null,i:-0.025,tone:'down'});if(!S.mysteryShown){S.mysteryShown=true;setTimeout(()=>{const el=document.createElement('div');el.id='mystery-notif';el.innerHTML='<div style="font-size:10px;color:#9d4edd;margin-bottom:5px;font-family:var(--mono);">UNKNOWN NUMBER</div><div>You good on Friday?</div><div style="font-size:10px;color:#9d4edd;margin-top:5px;">(tap to dismiss)</div>';el.onclick=()=>el.remove();document.body.appendChild(el);setTimeout(()=>{if(el.parentNode)el.remove();},8000);},12000);}},
+  3:()=>{stocks.forEach(s=>{if(s.ticker!=='VLRT')s.price*=1.04+Math.random()*0.02;});addNewsEvent({h:'Mid-week rally: broad market surge on positive jobs data',t:null,i:0.04,tone:'up'});addEmail({id:21,from:'C. Laurent',full:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',time:clockStr(),subj:'Wednesday note',body:`The Wednesday rally is happening again.\n\nDon't get greedy. Wednesday goes up, Thursday pulls back. New traders always buy the top.\n\nYou've been doing okay. Don't ruin it now.\n\n— CL`});adjustRep('claire',5);},
+  4:()=>{stocks.forEach(s=>{if(s.ticker!=='VLRT')s.price*=0.96-Math.random()*0.015;});addNewsEvent({h:"Thursday pullback: traders take profits after Wednesday's gains",t:null,i:-0.025,tone:'down'});if(!S.mysteryShown){S.mysteryShown=true;setTimeout(()=>{const el=document.createElement('div');el.id='mystery-notif';el.innerHTML='<div style="font-size:9px;color:#9d4edd;margin-bottom:5px;font-family:var(--mono);letter-spacing:0.5px;">UNKNOWN NUMBER</div><div>You good on Friday?</div><div style="font-size:9px;color:#9d4edd;margin-top:5px;">(tap to dismiss)</div>';el.onclick=()=>el.remove();document.body.appendChild(el);setTimeout(()=>{if(el.parentNode)el.remove();},8000);},12000);}},
   5:()=>{S.rentDue=true;updateRentTicker();addEmail({id:22,from:'Meridian HR',full:'Meridian Capital HR',role:'Human Resources',av:'av-hr',in:'HR',time:clockStr(),subj:'Reminder: Rent due today',body:`This is your Friday reminder.\n\nRent payment of $1,200 is due by end of business today.\n\nHR Team`});}
 };
 
-// ══ RENT ══
 function payRent(){
   if(S.rentPaid){pushNotif('Already paid','Rent has been paid.','av-hr','HR');return;}
   if(S.cash<1200){pushNotif('Insufficient funds',`You need $1,200. You have ${fm(S.cash)}.`,'av-hr','HR');return;}
   S.cash-=1200;S.rentPaid=true;updateRentTicker();updateTopBar();
   pushNotif('Rent Paid','$1,200 deducted. You can breathe.','av-hr','HR');
-  adjustRep('wagner',3); saveGame();
+  adjustRep('wagner',3);saveGame();
 }
-document.getElementById('rent-ticker').onclick=()=>{if(S.rentDue&&!S.rentPaid) payRent();};
+document.getElementById('rent-ticker').onclick=()=>{if(S.rentDue&&!S.rentPaid)payRent();};
 
 // ══ MARKET TICK ══
 let lastNews=Date.now(),nextNews=50000;
 function tickMarket(){
-  if(S.gameOver||S.cutsceneActive) return;
+  if(S.gameOver||S.cutsceneActive)return;
   stocks.forEach(s=>{
     let move=(Math.random()-0.495)*s.vol;
-    if(s.personality==='momentum'&&move>0) move*=1.3;
-    if(s.personality==='steady') move*=0.6;
-    if(s.personality==='volatile') move*=(1+Math.random()*0.5);
-    if(s.personality==='mystery'&&Math.random()<0.05) move=-Math.abs(move)*2;
-    s.price=Math.max(1,s.price*(1+move));
-    s.history.push(s.price);
-    if(s.history.length>50) s.history.shift();
+    if(s.personality==='momentum'&&move>0)move*=1.3;
+    if(s.personality==='steady')move*=0.6;
+    if(s.personality==='volatile')move*=(1+Math.random()*0.5);
+    if(s.personality==='mystery'&&Math.random()<0.05)move=-Math.abs(move)*2;
+    s.price=Math.max(1,s.price*(1+move));s.history.push(s.price);if(s.history.length>50)s.history.shift();
   });
-  S.minute+=1;
-  if(S.minute>=60){S.minute=0;S.hour+=1;}
+  S.minute+=1;if(S.minute>=60){S.minute=0;S.hour+=1;}
   if(S.hour>=17){
     S.hour=9;S.minute=0;S.day+=1;
-    if(S.rentDue&&!S.rentPaid){
-      if(S.cash>=1200){S.cash-=1200;S.rentPaid=true;pushNotif('Rent Paid','$1,200 auto-deducted.','av-hr','HR');updateRentTicker();}
-      else pushNotif('Rent MISSED','Insufficient funds for rent.','av-hr','HR');
-    }
-    const dayKey=(S.day-1)%5+1;
-    if(dayEvents[dayKey]&&!S.dayEventsFired[S.day]){S.dayEventsFired[S.day]=true;dayEvents[dayKey]();}
-    if(S.day>5&&!S.gameOver) checkEndCondition();
+    if(S.rentDue&&!S.rentPaid){if(S.cash>=1200){S.cash-=1200;S.rentPaid=true;pushNotif('Rent Paid','$1,200 auto-deducted.','av-hr','HR');updateRentTicker();}else pushNotif('Rent MISSED','Insufficient funds for rent.','av-hr','HR');}
+    const dk=(S.day-1)%5+1;if(dayEvents[dk]&&!S.dayEventsFired[S.day]){S.dayEventsFired[S.day]=true;dayEvents[dk]();}
+    if(S.day>5&&!S.gameOver)checkEndCondition();
     saveGame();
   }
-  updateTopBar(); renderStocks();
+  updateTopBar();renderStocks();
 }
 
-// ══ END ══
 function checkEndCondition(){
-  if(S.gameOver) return;
-  S.gameOver=true;
-  let pv=0,cv=0;
-  Object.keys(S.holdings).forEach(t=>{const s=stocks.find(x=>x.ticker===t);pv+=s.price*S.holdings[t];cv+=(S.costBasis[t]||s.price)*S.holdings[t];});
+  if(S.gameOver)return;S.gameOver=true;
+  let pv=0,cv=0;Object.keys(S.holdings).forEach(t=>{const s=stocks.find(x=>x.ticker===t);pv+=s.price*S.holdings[t];cv+=(S.costBasis[t]||s.price)*S.holdings[t];});
   const total=S.cash+pv,rentOk=S.rentPaid||(S.cash+pv>=1200),ret=(total-10000)/10000*100,won=ret>=10&&rentOk;
   const cRep=S.rep.claire,wRep=S.rep.wagner;
   let ending='';
-  if(!rentOk) ending="Wagner didn't even call. The building management did. You packed your desk before lunch.";
-  else if(ret<0) ending="You finished the week in the red. Wagner scheduled a 'performance conversation' for Monday. You know what that means.";
-  else if(ret<10) ending="Close, but not quite. Wagner said 'good effort' in a tone that meant the opposite. You're on probation.";
-  else if(cRep>=60) ending="Wagner shook your hand. But more importantly, Claire looked up from her screen and gave you a single nod. You've been here a week and you already know — that nod is worth more than the bonus.";
-  else if(wRep>=70) ending="Wagner made a small announcement at 4:58 PM. You hit your numbers. The floor applauded politely. Mark tried to high-five you. You let him.";
+  if(!rentOk)ending="Wagner didn't even call. The building management did. You packed your desk before lunch.";
+  else if(ret<0)ending="You finished the week in the red. Wagner scheduled a 'performance conversation' for Monday. You know what that means.";
+  else if(ret<10)ending="Close, but not quite. Wagner said 'good effort' in a tone that meant the opposite. You're on probation.";
+  else if(cRep>=60)ending="Wagner shook your hand. But more importantly, Claire looked up from her screen and gave you a single nod. You've been here a week and you already know — that nod is worth more than the bonus.";
+  else if(wRep>=70)ending="Wagner made a small announcement at 4:58 PM. You hit your numbers. The floor applauded politely. Mark tried to high-five you. You let him.";
   else ending="You hit 10%. Wagner seemed pleased. Mark wanted to celebrate. Claire had already left for the weekend — but you noticed she'd left a sticky note on your monitor. It said: 'Not bad.'";
   document.getElementById('end-title').textContent=won?'You made it.':'Game Over.';
   document.getElementById('end-title').style.color=won?'var(--green)':'var(--red)';
