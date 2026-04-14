@@ -682,8 +682,7 @@ function quitGame(){if(confirm('Quit?'))window.close();}
 function bootGame(){
   document.getElementById('main-menu').style.display='none';
   document.getElementById('game').style.display='flex';
-  document.getElementById('cutscene').style.display='none';
-  showView('market');renderEmails();updateTopBar();scheduleMarshall();
+  showView('market');renderEmails();updateTopBar();renderStocks();scheduleMarshall();
   if(!marketInterval)marketInterval=setInterval(tickMarket,3000);
   if(!newsInterval)newsInterval=setInterval(()=>{if(Date.now()-lastNews>nextNews){fireRandomNews();lastNews=Date.now();nextNews=40000+Math.random()*50000;}},5000);
 }
