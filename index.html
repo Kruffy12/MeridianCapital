@@ -266,6 +266,20 @@ body{font-family:var(--font);color:var(--text);font-size:14px;-webkit-font-smoot
   position:fixed;inset:0;z-index:600;
   display:none;flex-direction:column;background:var(--bg);
 }
+#cutscene.active{display:flex;}
+/* Cinematic black bars */
+#cutscene::before,
+#cutscene::after{
+  content:'';position:absolute;left:0;right:0;
+  background:#000;z-index:10;pointer-events:none;
+  transition:height 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+#cutscene::before{top:0;height:0;}
+#cutscene::after{bottom:0;height:0;}
+#cutscene.bars-in::before,
+#cutscene.bars-in::after{height:8vh;}
+#cutscene.bars-out::before,
+#cutscene.bars-out::after{height:0;}
 #cs-bg{position:absolute;inset:0;overflow:hidden;}
 .cs-orb{
   position:absolute;border-radius:50%;filter:blur(110px);pointer-events:none;
@@ -1038,8 +1052,11 @@ let marketInterval=null,newsInterval=null;
 function playCutscene(id){
   const cs=cutscenes[id];if(!cs)return;
   currentCutscene=cs;csIdx=0;csWaitingChoice=false;S.cutsceneActive=true;
-  document.getElementById('cutscene').style.display='flex';
-  renderCsScene();
+  const cutsceneEl=document.getElementById('cutscene');
+  cutsceneEl.classList.add('active');
+  // Ease in black bars
+  setTimeout(()=>cutsceneEl.classList.add('bars-in'),50);
+  setTimeout(()=>renderCsScene(),900);
 }
 function renderCsScene(){
   const sc=currentCutscene.scenes[csIdx];
@@ -1123,9 +1140,15 @@ function advanceCutscene(){
 }
 function endCutscene(){
   S.cutsceneActive=false;currentCutscene=null;
-  document.getElementById('cutscene').style.display='none';
+  const cutsceneEl=document.getElementById('cutscene');
+  // Ease out black bars
+  cutsceneEl.classList.remove('bars-in');
+  cutsceneEl.classList.add('bars-out');
+  setTimeout(()=>{
+    cutsceneEl.classList.remove('active','bars-out');
+  },900);
   // after cutscene: show story beat first
-  setTimeout(()=>showStory(0),800);
+  setTimeout(()=>showStory(0),1200);
 }
 document.getElementById('cutscene').addEventListener('click',function(e){
   if(e.target.classList.contains('cs-choice'))return;
@@ -1133,108 +1156,263 @@ document.getElementById('cutscene').addEventListener('click',function(e){
 });
 
 // ══ STORY BEATS ══
+// All story beats from the character arcs
 const storyScript=[
-  // Day 1 opening sequence
+  // Day 1 - Wagner opening (after cutscene)
   {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
    text:"One more thing. The VP position is open. I'm not filling it today. But I'm watching everyone on this floor. Including you.",
-   choices:[{l:"Understood.",n:1,rep:{wagner:2}},{l:"I'll keep that in mind.",n:1,rep:{wagner:0}}]},
+   choices:[
+     {l:"Understood.",n:1,rep:{wagner:2}},
+     {l:"I'll keep that in mind.",n:1,rep:{wagner:0}}
+   ]},
+  
+  // Day 1 - Mark intro (after Wagner)
   {sp:'Mark Rivera',role:'Junior Trader',av:'av-mark',in:'MR',
    text:"Okay real talk — Wagner's distracted with the VP thing. Less oversight. Which means opportunity. First rule: always look busy when Marshall walks by.",
-   choices:[{l:"What's the second rule?",n:2,rep:{mark:2}},{l:"That's one way to look at it.",n:2,rep:{mark:0}}]},
+   choices:[
+     {l:"What's the second rule?",n:2,rep:{mark:2}},
+     {l:"That's one way to look at it.",n:2,rep:{mark:0}}
+   ]},
   {sp:'Mark Rivera',role:'Junior Trader',av:'av-mark',in:'MR',
    text:"Second rule: ARIX. Always ARIX. Third rule: if Marshall looks at you, phone goes away immediately. Market's open. Let's get it.",
    choices:[{l:"Let's go.",n:-1}]},
   
-  // First trade reaction (triggered after first trade)
+  // Day 1 - First trade reaction (Wagner)
   {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
    text:"I saw that trade. Good. You're not just staring at the screen like a deer in headlights. That's more than I can say for some people on their first day.",
-   choices:[{l:"Just trying to keep up.",n:4,rep:{wagner:3}},{l:"Thanks. I won't let you down.",n:4,rep:{wagner:2}}]},
+   choices:[
+     {l:"Just trying to keep up.",n:4,rep:{wagner:3}},
+     {l:"Thanks. I won't let you down.",n:4,rep:{wagner:2}},
+     {l:"Is that what happened to the last VP?",n:4,rep:{wagner:0}}
+   ]},
   {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
-   text:"Don't thank me yet. We'll see where you stand by Friday. 10% return. That's the bar. I don't move it for anyone.",
-   choices:[{l:"Understood.",n:-1}]},
+   text:"10% by Friday. That's the bar. I don't move it for anyone.",
+   choices:[
+     {l:"Understood.",n:-1,rep:{wagner:2}},
+     {l:"I'll hit it.",n:-1,rep:{wagner:3}}
+   ]},
   
   // Day 2 - Wagner check-in
   {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
    text:"Day 2. You're still here. That's something. I've been watching your portfolio. You're making moves. Whether they're the right moves remains to be seen.",
-   choices:[{l:"I'm being careful.",n:6,rep:{wagner:2}},{l:"I'm learning as I go.",n:6,rep:{wagner:1}}]},
+   choices:[
+     {l:"I'm being careful.",n:6,rep:{wagner:2}},
+     {l:"I'm learning as I go.",n:6,rep:{wagner:1}},
+     {l:"Any feedback so far?",n:6,rep:{wagner:3}}
+   ]},
   {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
-   text:"Careful is good. Paralyzed is not. The market doesn't wait for you to feel ready. Remember: 10% by Friday. That's not a suggestion.",
-   choices:[{l:"I'll hit it.",n:-1,rep:{wagner:3}},{l:"I'm working on it.",n:-1,rep:{wagner:1}}]},
+   text:"Remember: 10% by Friday. That's not a suggestion.",
+   choices:[
+     {l:"I'll hit it.",n:-1,rep:{wagner:3}},
+     {l:"I'm working on it.",n:-1,rep:{wagner:1}}
+   ]},
+  
+  // Day 2 - Claire correction (if questionable trade)
+  {sp:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',
+   text:"That trade yesterday. Walk me through your thinking.",
+   choices:[
+     {l:"I thought it would go up.",n:8,rep:{claire:0}},
+     {l:"The news looked positive.",n:9,rep:{claire:3}},
+     {l:"I'm still learning.",n:8,rep:{claire:1}}
+   ]},
+  {sp:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',
+   text:"Everyone thinks their trades will go up. That's not analysis, that's hope. Hope is expensive here.",
+   choices:[{l:"Noted.",n:-1}]},
+  {sp:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',
+   text:"The news was positive. But the volume was declining. Price and volume divergence. That's a warning sign. Now you know. Volume tells you what price won't.",
+   choices:[
+     {l:"I didn't know to look for that.",n:-1,rep:{claire:3}},
+     {l:"How do you spot that so fast?",n:-1,rep:{claire:2}}
+   ]},
   
   // Day 3 - Claire observation (if rep >= 30)
   {sp:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',
    text:"You've been here three days. Most new hires are either overconfident or paralyzed by now. You're neither. That's... unusual.",
-   choices:[{l:"Is that a compliment?",n:8,rep:{claire:3}},{l:"Just trying to survive.",n:8,rep:{claire:2}}]},
+   choices:[
+     {l:"Is that a compliment?",n:11,rep:{claire:3}},
+     {l:"Just trying to survive.",n:11,rep:{claire:2}},
+     {l:"What were you?",n:12,rep:{claire:5}}
+   ]},
   {sp:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',
    text:"It's an observation. Don't let it go to your head. The Wednesday rally is happening. Don't get greedy. Thursday always pulls back.",
-   choices:[{l:"Thanks for the heads up.",n:-1,rep:{claire:4}},{l:"Noted.",n:-1,rep:{claire:2}}]},
+   choices:[
+     {l:"Thanks for the heads up.",n:-1,rep:{claire:4}},
+     {l:"Noted.",n:-1,rep:{claire:2}}
+   ]},
+  {sp:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',
+   text:"Paralyzed. For about two weeks. Then I got angry. Anger is more useful than fear. The Wednesday rally is happening. Don't get greedy. Thursday always pulls back.",
+   choices:[
+     {l:"Thanks for the heads up.",n:-1,rep:{claire:4}},
+     {l:"Noted.",n:-1,rep:{claire:2}}
+   ]},
   
-  // Day 4 - Mark stress (if player has made 3+ trades)
-  {sp:'Mark Rivera',role:'Junior Trader',av:'av-mark',in:'MR',
-   text:"Okay so... don't tell anyone this. But I'm down like 15% this week. Rent's Friday. I'm kind of freaking out here.",
-   choices:[{l:"What happened?",n:10,rep:{mark:3}},{l:"You'll bounce back.",n:10,rep:{mark:2}}]},
-  {sp:'Mark Rivera',role:'Junior Trader',av:'av-mark',in:'MR',
-   text:"I went all-in on ARIX Monday. It dropped. Then I panic-sold. Then it went back up. Classic Mark move. Anyway — you're doing okay, right?",
-   choices:[{l:"Hanging in there.",n:11,rep:{mark:2}},{l:"Better than 15% down.",n:11,rep:{mark:-1}}]},
-  {sp:'Mark Rivera',role:'Junior Trader',av:'av-mark',in:'MR',
-   text:"Yeah. Yeah, you are. Good for you, honestly. Just... if Wagner asks, I'm up 8%, okay?",
-   choices:[{l:"Your secret's safe.",n:-1,rep:{mark:5}},{l:"I won't say anything.",n:-1,rep:{mark:3}}]},
-  
-  // Day 5 - Rent day pressure
+  // Day 3 - Wagner rally observation (if player bought)
   {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
-   text:"Friday. Rent day. I assume you've been keeping track of your cash position. The firm doesn't front rent. You're on your own for that.",
-   choices:[{l:"I'm covered.",n:13,rep:{wagner:2}},{l:"I'll manage.",n:13,rep:{wagner:1}}]},
+   text:"You bought the rally. Bold. Or reckless. We'll know tomorrow.",
+   choices:[
+     {l:"Yes sir.",n:14,rep:{wagner:2}},
+     {l:"It seemed like the right move.",n:14,rep:{wagner:3}}
+   ]},
   {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
-   text:"Good. Because nothing says 'bad risk management' like missing rent in your first week. We'll talk Monday about your performance. Have a good weekend.",
-   choices:[{l:"You too.",n:-1}]},
-  
-  // Week 1 review - Positive (>= 10% return)
-  {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
-   text:"Week one. You hit your number. 10% or better. I'll be honest — I didn't think you would. Most new hires don't.",
-   choices:[{l:"Thank you, sir.",n:15,rep:{wagner:5}},{l:"Just doing my job.",n:15,rep:{wagner:3}}]},
-  {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
-   text:"Don't get comfortable. Week one is easy. The market was kind to you. Week two won't be. But you've earned the right to keep trying. See you Monday.",
-   choices:[{l:"I'll be ready.",n:-1,rep:{wagner:3}}]},
-  
-  // Week 1 review - Neutral (0-9.99% return)
-  {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
-   text:"Week one. You didn't lose money. That's something. But you didn't hit 10% either. I need results, not 'almost.'",
-   choices:[{l:"I'll do better next week.",n:17,rep:{wagner:1}},{l:"The market was tough.",n:17,rep:{wagner:-2}}]},
-  {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
-   text:"The market is always tough. That's the job. You're still here, so I'm giving you another week. Don't make me regret it.",
-   choices:[{l:"I won't.",n:-1}]},
-  
-  // Week 1 review - Negative (< 0% return)
-  {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
-   text:"Week one. You lost money. In a week where the market was up. That's... not good. What happened?",
-   choices:[{l:"Bad timing on my trades.",n:19,rep:{wagner:-3}},{l:"I'm still learning.",n:19,rep:{wagner:-5}}]},
-  {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
-   text:"Learning is fine. Losing is not. You have one more week to turn this around. If you're still in the red by next Friday, we'll have a different conversation.",
+   text:"Wednesday rallies are predictable. Thursday pullbacks are predictable. The question is whether you're smart enough to use that.",
    choices:[{l:"Understood.",n:-1}]},
   
-  // Marshall first warning (after first catch)
+  // Day 4 - Mark vulnerability (main moment)
+  {sp:'Mark Rivera',role:'Junior Trader',av:'av-mark',in:'MR',
+   text:"Okay so... don't tell anyone this. But I'm down like 15% this week. Rent's Friday. I'm kind of freaking out here.",
+   choices:[
+     {l:"What happened?",n:16,rep:{mark:3}},
+     {l:"You'll bounce back.",n:18,rep:{mark:1}}
+   ]},
+  {sp:'Mark Rivera',role:'Junior Trader',av:'av-mark',in:'MR',
+   text:"I went all-in on ARIX Monday. It dropped. Then I panic-sold. Then it went back up. Classic Mark move. Anyway — you're doing okay, right?",
+   choices:[
+     {l:"Hanging in there.",n:17,rep:{mark:2}},
+     {l:"Better than 15% down.",n:17,rep:{mark:-1}},
+     {l:"I've had some losses too.",n:17,rep:{mark:3}}
+   ]},
+  {sp:'Mark Rivera',role:'Junior Trader',av:'av-mark',in:'MR',
+   text:"Just... if Wagner asks, I'm up 8%, okay?",
+   choices:[
+     {l:"Your secret's safe.",n:-1,rep:{mark:5}},
+     {l:"I won't say anything.",n:-1,rep:{mark:3}}
+   ]},
+  {sp:'Mark Rivera',role:'Junior Trader',av:'av-mark',in:'MR',
+   text:"Everyone keeps saying that. But what if I don't?",
+   choices:[{l:"You will.",n:-1,rep:{mark:1}}]},
+  
+  // Day 4 - Claire observation about Mark (if rep >= 40)
+  {sp:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',
+   text:"You've been here almost a week. You're doing better than I expected. Most new hires are either overconfident or paralyzed by now.",
+   choices:[
+     {l:"Is that a compliment?",n:20,rep:{claire:3}},
+     {l:"Just trying to survive.",n:20,rep:{claire:2}}
+   ]},
+  {sp:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',
+   text:"You have decent instincts. Don't let Wagner's pressure make you reckless. I watch everyone. Mark is struggling. You've probably noticed. Don't let his panic infect your decisions.",
+   choices:[
+     {l:"He told me.",n:-1,rep:{claire:5}},
+     {l:"I noticed.",n:-1,rep:{claire:3}}
+   ]},
+  
+  // Day 4 - Wagner floor observation (if rep >= 40)
+  {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
+   text:"You've been here almost a week. You're doing better than I expected. I expected you to panic by Wednesday. Or get cocky by Tuesday. You did neither. That's rare.",
+   choices:[
+     {l:"Thank you sir.",n:22,rep:{wagner:3}},
+     {l:"Just trying to survive.",n:22,rep:{wagner:5}}
+   ]},
+  {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
+   text:"I see the Slacks. I see the whispers. I know Mark is struggling. I know Claire is watching you. I know everything that happens on this floor. The question is what you do with that information.",
+   choices:[
+     {l:"I'm just focused on my own work.",n:-1,rep:{wagner:4}},
+     {l:"Why are you telling me this?",n:-1,rep:{wagner:5}}
+   ]},
+  
+  // Day 5 - Wagner rent pressure
+  {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
+   text:"Friday. Rent day. I assume you've been keeping track of your cash position. The firm doesn't front rent. You're on your own for that.",
+   choices:[
+     {l:"I'm covered.",n:24,rep:{wagner:2}},
+     {l:"I'll manage.",n:24,rep:{wagner:1}}
+   ]},
+  {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
+   text:"Good. Because nothing says 'bad risk management' like missing rent in your first week. We'll talk Monday about your performance. Have a good weekend.",
+   choices:[
+     {l:"You too.",n:-1,rep:{wagner:2}},
+     {l:"Thank you sir.",n:-1,rep:{wagner:1}}
+   ]},
+  
+  // Day 5 - Claire week reflection (if rep >= 50)
+  {sp:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',
+   text:"Last day of your first week. You made it. That's not nothing. How are you feeling about your performance?",
+   choices:[
+     {l:"Nervous about Wagner's review.",n:26,rep:{claire:2}},
+     {l:"Proud of what I did.",n:27,rep:{claire:3}},
+     {l:"Honestly? Exhausted.",n:28,rep:{claire:3}}
+   ]},
+  {sp:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',
+   text:"Wagner's bark is worse than his bite. If you hit your number, he'll acknowledge it. If you didn't, he'll tell you exactly why. My first week? I was down 3%. Wagner told me I had two weeks to turn it around or I was out. I hit 15% week two. Spite is a powerful motivator.",
+   choices:[
+     {l:"That's impressive.",n:29,rep:{claire:4}},
+     {l:"I'll remember that.",n:29,rep:{claire:3}}
+   ]},
+  {sp:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',
+   text:"Confidence is fine as long as it's earned. Just don't let one good week make you think you've figured it all out. Year three. Maybe. I'm still figuring it out. Anyone who says they have it all figured out is lying.",
+   choices:[{l:"Good to know.",n:29,rep:{claire:3}}]},
+  {sp:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',
+   text:"That's normal. The first week takes everything you have. It gets easier. Or you get better at pretending it's easy.",
+   choices:[{l:"I hope so.",n:29,rep:{claire:3}}]},
+  {sp:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',
+   text:"You'll be fine. You have good instincts. Just keep doing what you're doing. And have a good weekend. You earned it.",
+   choices:[
+     {l:"Thanks. You too.",n:-1,rep:{claire:2}},
+     {l:"That means a lot coming from you.",n:-1,rep:{claire:5}},
+     {l:"Any plans for the weekend?",n:30,rep:{claire:3}}
+   ]},
+  {sp:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',
+   text:"Reading. I have a manuscript due. I write. Fiction. Under a pseudonym. Don't tell anyone.",
+   choices:[
+     {l:"Your secret's safe.",n:-1,rep:{claire:8}},
+     {l:"That's really cool.",n:-1,rep:{claire:6}}
+   ]},
+  
+  // Marshall first warning
   {sp:'Officer Marshall',role:'Security',av:'av-marshall',in:'OM',
    text:"...",
-   choices:[{l:"Sorry, I—",n:21},{l:"(say nothing)",n:21}]},
+   choices:[
+     {l:"Sorry, I—",n:32},
+     {l:"(say nothing)",n:32}
+   ]},
   {sp:'Officer Marshall',role:'Security',av:'av-marshall',in:'OM',
    text:"Floor policy. No personal devices during trading hours. This is your warning. There won't be a second one.",
    choices:[{l:"It won't happen again.",n:-1,rep:{wagner:-5}}]},
   
-  // Claire relationship moment (if rep >= 50 by end of week)
-  {sp:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',
-   text:"You made it through week one. Most people don't make it look that... effortless. I'm impressed. Don't tell anyone I said that.",
-   choices:[{l:"Your secret's safe.",n:23,rep:{claire:5}},{l:"Thanks. That means a lot.",n:23,rep:{claire:4}}]},
-  {sp:'Claire Laurent',role:'Senior Analyst',av:'av-claire',in:'CL',
-   text:"I don't give compliments often. So take it seriously. You have potential. Don't waste it trying to impress Wagner. Just do the work.",
-   choices:[{l:"I will.",n:-1,rep:{claire:3}}]},
+  // Monday - Week 1 Review (Positive >= 10%)
+  {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
+   text:"Week one. You hit your number. 10% or better. I'll be honest — I didn't think you would. Most new hires don't.",
+   choices:[
+     {l:"Thank you, sir.",n:34,rep:{wagner:5}},
+     {l:"Just doing my job.",n:34,rep:{wagner:3}},
+     {l:"I got lucky.",n:34,rep:{wagner:6}}
+   ]},
+  {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
+   text:"Don't get comfortable. Week one is easy. The market was kind to you. Week two won't be. But you've earned the right to keep trying. The VP position is still open. I'm watching everyone. Including you.",
+   choices:[
+     {l:"I'll keep that in mind.",n:-1,rep:{wagner:2}},
+     {l:"I'm interested.",n:-1,rep:{wagner:4}},
+     {l:"I'm just focused on week two.",n:-1,rep:{wagner:3}}
+   ]},
   
-  // Mark weekend text (if rep >= 60)
-  {sp:'Mark Rivera',role:'Junior Trader',av:'av-mark',in:'MR',
-   text:"Yo. Made it through week one. Barely. But we did it. You wanna grab drinks sometime? I know a place that doesn't card.",
-   choices:[{l:"Maybe next week.",n:25,rep:{mark:3}},{l:"I'll think about it.",n:25,rep:{mark:1}}]},
-  {sp:'Mark Rivera',role:'Junior Trader',av:'av-mark',in:'MR',
-   text:"Cool cool. No pressure. Just figured we should celebrate not getting fired. See you Monday, legend.",
-   choices:[{l:"See you Monday.",n:-1}]}
+  // Monday - Week 1 Review (Neutral 0-9.99%)
+  {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
+   text:"Week one. You didn't lose money. That's something. But you didn't hit 10% either. I need results, not 'almost.'",
+   choices:[
+     {l:"I'll do better next week.",n:36,rep:{wagner:1}},
+     {l:"The market was tough.",n:36,rep:{wagner:-2}},
+     {l:"What should I have done differently?",n:36,rep:{wagner:3}}
+   ]},
+  {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
+   text:"The market is always tough. That's the job. You're still here, so I'm giving you another week. Don't make me regret it.",
+   choices:[
+     {l:"I won't.",n:-1,rep:{wagner:1}},
+     {l:"I'll hit it next week.",n:-1,rep:{wagner:2}}
+   ]},
+  
+  // Monday - Week 1 Review (Negative < 0%)
+  {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
+   text:"Week one. You lost money. In a week where the market was up. That's... not good. What happened?",
+   choices:[
+     {l:"Bad timing on my trades.",n:38,rep:{wagner:-3}},
+     {l:"I'm still learning.",n:38,rep:{wagner:-5}},
+     {l:"I panicked.",n:38,rep:{wagner:-2}}
+   ]},
+  {sp:'Richard Wagner',role:'Managing Director',av:'av-wagner',in:'RW',
+   text:"You have one more week to turn this around. If you're still in the red by next Friday, we'll have a different conversation. And you won't like that conversation.",
+   choices:[
+     {l:"Understood.",n:-1,rep:{wagner:1}},
+     {l:"I'll fix it.",n:-1,rep:{wagner:2}}
+   ]}
 ];
 
 // ══ UTILS ══
